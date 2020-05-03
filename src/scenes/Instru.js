@@ -7,9 +7,9 @@ class Instru extends Phaser.Scene{
         this.load.path = './assets/img/';
         this.load.image([
             //load background
-            { key: 'background' },
+            //{ key: 'background' },
             //load player
-            { key: 'character' },
+            //{ key: 'character' },
             //load items
             { key: 'mask' },
             { key: 'alcohol' },

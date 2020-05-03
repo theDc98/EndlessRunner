@@ -3,6 +3,10 @@
 //Game Title: Covid-19 Run!
 //Date completed: 
 //Creative title:
+let cursors;
+let currentScene = 0;
+const SCALE = 1;
+const tileSize = 35;
 
 let config = {
     type: Phaser.AUTO,
