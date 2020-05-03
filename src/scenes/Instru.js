@@ -48,9 +48,9 @@ class Instru extends Phaser.Scene{
         this.add.text(centerX+50, 140, ' Alcohol can kill Virus once & 7 points', instruConfig).setOrigin(0.5);
         this.add.image(centerX/4, 200, 'sanitizer').setScale(1.5).setOrigin(0.5);
         this.add.text(centerX+50, 200, ' Sanitizer will add 2 hp & 10 points', instruConfig).setOrigin(0.5);
-        this.add.image(centerX/4, 260, 'virus1').setScale(1.5).setOrigin(0.5);
+        this.add.image(centerX/4, 260, 'virus2').setScale(1.5).setOrigin(0.5);
         this.add.text(centerX+50, 260, ' Virus1 will reduce 2 hp ', instruConfig).setOrigin(0.5);
-        this.add.image(centerX/4, 320, 'virus2').setScale(1.5).setOrigin(0.5);
+        this.add.image(centerX/4, 320, 'virus1').setScale(1.5).setOrigin(0.5);
         this.add.text(centerX+50, 320, ' Virus2 will reduce 4 hp ', instruConfig).setOrigin(0.5);
         
         //type space to play
