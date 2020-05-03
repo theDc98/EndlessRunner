@@ -4,7 +4,7 @@ class Instru extends Phaser.Scene{
     }
     preload(){
         //load images
-        this.load.path = './assets/img/';
+        this.load.path = './assets/';
         this.load.image([
             //load background
             //{ key: 'background' },
