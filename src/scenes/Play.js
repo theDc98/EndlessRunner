@@ -18,8 +18,9 @@ class Play extends Phaser.Scene{
         
         //load player
         //this.load.atlas('player', 'image.png', 'atlas.json');
-        this.load.image('player', './assets/img/character.png');
-
+        //this.load.image('player', './assets/img/character.png');
+        this.load.animation('player', 'assets/img/character.json');
+        this.load.atlas('run', 'assets/img/character.png', 'assets/img/character.json');
         //load item
 
         //load animation of kill-virus
@@ -29,38 +30,46 @@ class Play extends Phaser.Scene{
     create(){
         //some parameters
         this.level = this.initialLevel;
-        this.hp = 5;
         this.score = 0;
         let centerX = game.config.width/2;
-    
-        //player alive
-        this.Death = false;
+
+        //随机数  game.rnd.integerInRange(min, max);
+        //var value = Phaser.Math.Between(min, max);
+        let a = Phaser.Math.Between(600, 1000); //maskX
+        let b = Phaser.Math.Between(1200, 2000); //alcoholX
+        let c = Phaser.Math.Between(800, 1200); //sanitizerX
+        let d = Phaser.Math.Between(350, 1200); //virus1X
+        let e = Phaser.Math.Between(500, 1000);  //virus2X
+        let height1 = Phaser.Math.Between(200, 600); //maskY
+        let height2 = Phaser.Math.Between(200, 600); //alcoholY
+        let height3 = Phaser.Math.Between(200, 800); //sanitizerY  
+
+        //jump input
+        keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
         //place background
         this.background = this.add.tileSprite(0, 0, 800, 480, 'background').setOrigin(0.0);
 
         //add ground
-        //this.physics.startSystem(Phaser.Physics.ARCADE);
-
         this.platform = this.physics.add.staticGroup();
-        //this.platform.enableBody = true;
         this.ground = this.platform.create(centerX, game.config.height-25, 'ground').setScale(1.8).refreshBody().setOrigin(0.5);
         this.ground.body.immovable = true;
-
+    
         //add player and physics system
-        this.player = this.physics.add.sprite(30, 300, 'player').setOrigin(0.5);
+        this.player = this.physics.add.sprite(30, 300, 'run').play('player').setOrigin(0.5);
+        
         this.physics.add.collider(this.player, this.ground);
         this.player.setCollideWorldBounds(true);
         this.player.setBounce(0.25);
 
         //add items
-        this.mask = new Mask(this, game.config.width+game.rnd.integerInRange(200, 800), game.rnd.integerInRange(120, 400), 'mask', 5).setOrigin(0, 5);
-        this.alcohol = new Alcohol(this, game.config.width+game.rnd.integerInRange(400, 800), game.rnd.integerInRange(120, 400), 'alcohol', 7).setOrigin(0, 5);
-        this.sanitizer = new Sanitizer(this, game.config.width+game.rnd.integerInRange(400, 800), game.rnd.integerInRange(120, 400), 'sanitizer', 10).setOrigin(0, 5);
+        this.mask = new Mask(this, game.config.width+a, height1, 'mask', 5).setOrigin(0, 5);
+        this.alcohol = new Alcohol(this, game.config.width+b, height2, 'alcohol', 7).setOrigin(0, 5);
+        this.sanitizer = new Sanitizer(this, game.config.width+c, height3, 'sanitizer', 10).setOrigin(0, 5);
         
         //add virus
-        this.virus1 = new Virus1(this, game.config.width+game.rnd.integerInRange(80, 600), 350, 'virus1', 3).setOrigin(0.5);
-        this.virus2 = new Virus2(this, game.config.width+game.rnd.integerInRange(80, 800), 350, 'virus2', 5).setOrigin(0.5);
+        this.virus1 = new Virus1(this, game.config.width+d, 350, 'virus1', 3).setOrigin(0.5);
+        this.virus2 = new Virus2(this, game.config.width+e, 350, 'virus2', 5).setOrigin(0.5);
     }
     
     //uncompleted
@@ -70,7 +79,7 @@ class Play extends Phaser.Scene{
         let centerY = game.config.height/2;
 
         //scroll the background
-        this.backrgound.tilePositionX += 5; 
+        this.background.tilePositionX += 5; 
         
         //player status
         this.checkDeath(this.hp);
@@ -78,8 +87,8 @@ class Play extends Phaser.Scene{
         //player alive and keep running
         if(!this.Death){
             //check key input for jump
-            if(player.body.touching.down && Phaser.Input.Keyboard.JustDown(keySPACE)){
-                player.setVelocityY(-280);
+            if(this.player.body.touching.down && Phaser.Input.Keyboard.JustDown(keySPACE)){
+                this.player.update();
             }
             /* if(Phaser.Input.Keyboard.JustDown(keyF)){
                 //kill virus
@@ -165,17 +174,16 @@ class Play extends Phaser.Scene{
          }
     }
 
+    checkDeath(hp){
+        if(hp<=0){
+            return this.isDead = true;
+        }else{
+            return this.isDead = false;
+        }
+    }
+    
     /* elementDisappear(element){
 
 
     } */
-
-    checkDeath(hp){
-        if(hp<=0){
-            return this.Death = true;
-        }else{
-            return this.Death = false;
-        }
-    }
-
 }
