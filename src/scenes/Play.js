@@ -18,7 +18,7 @@ class Play extends Phaser.Scene{
         
         //load player
         //this.load.atlas('player', 'image.png', 'atlas.json');
-        this.load.image('player', './assets/imgs/character.png');
+        this.load.image('player', './assets/img/character.png');
 
         //load item
 
@@ -28,16 +28,21 @@ class Play extends Phaser.Scene{
 
     create(){
         //some parameters
-        level = this.initialLevel;
-        hp = 5;
+        this.level = this.initialLevel;
+        this.hp = 5;
         this.score = 0;
     
         //player alive
-        Death = false;
+        this.Death = false;
 
         //place background
         this.background = this.add.tileSprite(0, 0, 800, 480, 'background').setOrigin(0.0);
-        ground = platforms.create(game.config.width, game.config.height, 'ground').refreshBody().setOrigin(1.1);
+
+        //add ground
+        this.platform = game.add.group();
+        this.platform.enableBody = true;
+        this.ground = platform.create(game.config.width, game.config.height, 'ground').refreshBody().setOrigin(1.1);
+        this.ground.body.immovable = true;
 
         //add player and physics system
         player = this.physics.add.Sprite(30, 350, 'player').setOrigin(0.5);
@@ -60,21 +65,9 @@ class Play extends Phaser.Scene{
         //some parameters
         let centerX = game.config.width/2;
         let centerY = game.config.height/2;
-        let textConfig = {
-            fontFamily: 'Courier',
-            fontSize: '28px',
-            backgroundColor: '#F3B141',
-            color: '#843605',
-            align: 'right',
-            padding: {
-                top: 5,
-                bottom: 5,
-            },
-            fixedWidth: 0
-        }
 
         //scroll the background
-        this.backrgound.tilePositionX -= 5; 
+        this.backrgound.tilePositionX += 5; 
         
         //player status
         this.checkDeath(this.hp);
