@@ -4,18 +4,18 @@ class Instru extends Phaser.Scene{
     }
     preload(){
         //load images
-        this.load.path = './assets/imgs/';
+        this.load.path = './assets/img/';
         this.load.image([
             //load background
-            { background: 'background' },
+            { key: 'background' },
             //load player
-            { player: 'player' },
+            { key: 'character' },
             //load items
-            { mask: 'mask' },
-            { alcohol: 'alcohol' },
-            { sanitizer: 'sanitizer' },
-            { virus1: 'virus1' },
-            { virus2: 'virus2' },
+            { key: 'mask' },
+            { key: 'alcohol' },
+            { key: 'sanitizer' },
+            { key: 'virus1' },
+            { key: 'virus2' },
         ]);
     }
 
@@ -24,34 +24,43 @@ class Instru extends Phaser.Scene{
         this.background = this.add.tileSprite(0, 0, 800, 480, 'background').setOrigin(0.0);
 
         //UI and text
-        let menuConfig = {
+        let instruConfig = {
             fontFamily: 'Courier',
             fontSize: '28px',
-            backgroundColor: '#F3B141',
-            color: '#843605',
-            align: 'right',
-            padding: {
-                top: 5,
-                bottom: 5,
-            },
-            fixedWidth: 0
+            align: 'left',
+            fixedWidth: 0,
         }
         let centerX = game.config.width/2;
         let centerY = game.config.height/2;
         let textSpacer = 64;
 
-        this.add.text(centerX, centerY - textSpacer, 'Covid-19 Run!', menuConfig).setOrigin(0.5);
+        /* this.add.text(centerX, centerY - textSpacer, 'Covid-19 Run!', menuConfig).setOrigin(0.5);
         this.add.text(centerX, centerY, 'Type SPACE to start', menuConfig).setOrigin(0.5);
         
-        this.add.text(centerX, centerY + textSpacer, 'Press <- for Easy or -> for Hard', menuConfig).setOrigin(0.5);
+        this.add.text(centerX, centerY + textSpacer, 'Press <- for Easy or -> for Hard', menuConfig).setOrigin(0.5); */
         //console.log(this);
-        this.add.text(20, 20, "Roecket Patrol Menu");
 
+        //add instructions
+        this.add.text(centerX, 30, 'Instruction', instruConfig).setOrigin(0.5);
+        this.add.image(centerX/4, 80, 'mask').setScale(1.5).setOrigin(0.5);
+        this.add.text(centerX+50, 80, ' Mask will add 1 HP & 5 points', instruConfig).setOrigin(0.5);
+        this.add.image(centerX/4, 140, 'alcohol').setScale(1.5).setOrigin(0.5);
+        this.add.text(centerX+50, 140, ' Alcohol can kill Virus once & 7 points', instruConfig).setOrigin(0.5);
+        this.add.image(centerX/4, 200, 'sanitizer').setScale(1.5).setOrigin(0.5);
+        this.add.text(centerX+50, 200, ' Sanitizer will add 2 hp & 10 points', instruConfig).setOrigin(0.5);
+        this.add.image(centerX/4, 260, 'virus1').setScale(1.5).setOrigin(0.5);
+        this.add.text(centerX+50, 260, ' Virus1 will reduce 2 hp ', instruConfig).setOrigin(0.5);
+        this.add.image(centerX/4, 320, 'virus2').setScale(1.5).setOrigin(0.5);
+        this.add.text(centerX+50, 320, ' Virus2 will reduce 4 hp ', instruConfig).setOrigin(0.5);
+        
+        //type space to play
+        this.add.text(centerX, 400, 'Type SPACE to Play', instruConfig).setOrigin(0.5);
+        keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
     }
 
     update(){
         //scroll the background
-        this.background.tilePositionX -= 4;
+        this.background.tilePositionX += 4;
 
         if(Phaser.Input.Keyboard.JustDown(keySPACE)){
             //this.sound.play('select');

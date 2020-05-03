@@ -8,15 +8,14 @@ class Menu extends Phaser.Scene{
         this.load.audio('select', './assets/audio/XXX'); */
 
         //load background
-        this.load.image('background', './assets/imgs/background.png');
-        this.load.image('ground', './assets/imgs/ground.png');
+        this.load.image('background', './assets/img/background.png');
+        this.load.image('ground', './assets/img/ground.png');
     }
 
     create(){
         //place background
         this.background = this.add.tileSprite(0, 0, 800, 480, 'background').setOrigin(0.0);
-        this.ground = this.add.sprite(game.config.width, game.config.height, 'ground', '0').setOrigin(1.1);
-
+        
         //play bgm
         /* this.bgm = this.sound.add('bgm', {
             mute: false,
@@ -29,9 +28,8 @@ class Menu extends Phaser.Scene{
         // 改字体 颜色 UI
         let menuConfig = {
             fontFamily: 'Courier',
-            fontSize: '28px',
-            backgroundColor: '#F3B141',
-            color: '#843605',
+            fontSize: '40px',
+            color: '#CD00CD',
             align: 'right',
             padding: {
                 top: 5,
@@ -48,11 +46,12 @@ class Menu extends Phaser.Scene{
         this.add.text(centerX, centerY - textSpacer, 'Covid-19 Run!', menuConfig).setOrigin(0.5);
         this.add.text(centerX, centerY + textSpacer, 'Type SPACE to start', menuConfig).setOrigin(0.5);
 
+        keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
     }
 
     update(){
         //scroll the background
-        this.background.tilePositionX -= 3;
+        this.background.tilePositionX += 3;
 
         if(Phaser.Input.Keyboard.JustDown(keySPACE)){
             //this.sound.play('select');

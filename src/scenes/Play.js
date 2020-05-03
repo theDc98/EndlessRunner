@@ -45,7 +45,7 @@ class Play extends Phaser.Scene{
         //add items
         this.mask = new Mask(this, game.config.width+game.rnd.integerInRange(200, 800), game.rnd.integerInRange(120, 400), 'mask', 5).setOrigin(0, 5);
         this.alcohol = new Alcohol(this, game.config.width+game.rnd.integerInRange(400, 800), game.rnd.integerInRange(120, 400), 'alcohol', 7).setOrigin(0, 5);
-        this.sanitizer = new Sanitizer(this, game.config.width+game.rnd.integerInRange(400, 800), game.rnd.integerInRange(120, 400), 'mask', 10).setOrigin(0, 5);
+        this.sanitizer = new Sanitizer(this, game.config.width+game.rnd.integerInRange(400, 800), game.rnd.integerInRange(120, 400), 'sanitizer', 10).setOrigin(0, 5);
         
         //add virus
         this.virus1 = new Virus1(this, game.config.width+game.rnd.integerInRange(80, 600), 350, 'virus1', 3).setOrigin(0.5);
