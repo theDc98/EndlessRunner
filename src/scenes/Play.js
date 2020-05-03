@@ -39,6 +39,7 @@ class Play extends Phaser.Scene{
         this.background = this.add.tileSprite(0, 0, 800, 480, 'background').setOrigin(0.0);
 
         //add ground
+        game.system.startSystem(Phaser.Physics.ARCADE);
         this.platform = game.add.group();
         this.platform.enableBody = true;
         this.ground = platform.create(game.config.width, game.config.height, 'ground').refreshBody().setOrigin(1.1);
