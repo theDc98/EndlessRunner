@@ -8,8 +8,8 @@ class Menu extends Phaser.Scene{
         this.load.audio('select', './assets/audio/XXX'); */
 
         //load background
-        this.load.image('background', './assets/img/background.png');
-        this.load.image('ground', './assets/img/ground.png');
+        this.load.image('background', './assets/background.png');
+        this.load.image('ground', './assets/ground.png');
     }
 
     create(){
