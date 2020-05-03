@@ -48,7 +48,7 @@ class Play extends Phaser.Scene{
         this.ground.body.immovable = true;
 
         //add player and physics system
-        this.player = this.physics.add.sprite(30, 350, 'player').setOrigin(0.5);
+        this.player = this.physics.add.sprite(30, 300, 'player').setOrigin(0.5);
         this.physics.add.collider(this.player, this.ground);
         this.player.setCollideWorldBounds(true);
         this.player.setBounce(0.25);
