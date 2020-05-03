@@ -13,7 +13,6 @@ let config = {
         arcade: {
             debug: true,
             gravity: {
-                x: 0,
                 y: 230
             }
         }

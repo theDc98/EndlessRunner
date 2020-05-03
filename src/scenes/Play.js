@@ -31,6 +31,7 @@ class Play extends Phaser.Scene{
         this.level = this.initialLevel;
         this.hp = 5;
         this.score = 0;
+        let centerX = game.config.width/2;
     
         //player alive
         this.Death = false;
@@ -39,17 +40,18 @@ class Play extends Phaser.Scene{
         this.background = this.add.tileSprite(0, 0, 800, 480, 'background').setOrigin(0.0);
 
         //add ground
-        game.system.startSystem(Phaser.Physics.ARCADE);
-        this.platform = game.add.group();
-        this.platform.enableBody = true;
-        this.ground = platform.create(game.config.width, game.config.height, 'ground').refreshBody().setOrigin(1.1);
+        //this.physics.startSystem(Phaser.Physics.ARCADE);
+
+        this.platform = this.physics.add.staticGroup();
+        //this.platform.enableBody = true;
+        this.ground = this.platform.create(centerX, game.config.height-25, 'ground').setScale(1.8).refreshBody().setOrigin(0.5);
         this.ground.body.immovable = true;
 
         //add player and physics system
-        player = this.physics.add.Sprite(30, 350, 'player').setOrigin(0.5);
-        this.physics.add.collider(player, ground);
-        player.setCollideWorldBounds(true);
-        player.setBounce(0.25);
+        this.player = this.physics.add.sprite(30, 350, 'player').setOrigin(0.5);
+        this.physics.add.collider(this.player, this.ground);
+        this.player.setCollideWorldBounds(true);
+        this.player.setBounce(0.25);
 
         //add items
         this.mask = new Mask(this, game.config.width+game.rnd.integerInRange(200, 800), game.rnd.integerInRange(120, 400), 'mask', 5).setOrigin(0, 5);
