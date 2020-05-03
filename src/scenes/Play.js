@@ -13,8 +13,8 @@ class Play extends Phaser.Scene{
         
         // load ground
         this.load.path = './assets/';
-        this.load.atlas('character', 'character.png', 'character.json');
-        this.load.spritesheet('character','character01.png');
+        //this.load.atlas('character', 'character.png', 'character.json');
+        //this.load.spritesheet('character','character01.png');
         //this.load.image('arrowKey', 'arrowKey.png');
         this.load.image('background', '.background.png');
         //,{
