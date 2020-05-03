@@ -15,9 +15,12 @@ class Play extends Phaser.Scene{
         //load ground
         //this.load.atlas('ground', 'ground.png', 'ground.json');
         //this.load.image('ground', './assets/imgs/ground.png');
+        
         //load player
         //this.load.atlas('player', 'image.png', 'atlas.json');
         this.load.image('player', './assets/imgs/character.png');
+
+        //load item
 
         //load animation of kill-virus
         //this.load.spritesheet('kill', './assets/imgs/XXX', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
