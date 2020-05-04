@@ -33,4 +33,17 @@ let keySPACE, keyF;
 game.settings = {
     initialLevel: 0,
     initialSpeed: 2,
+
+    
 }
+// define globals
+let centerX = game.config.width/2;
+let centerY = game.config.height/2;
+const textSpacer = 64;
+let paddle = null;
+const paddleWidth = 16;
+const paddleHeight = 128;
+const paddleVelocity = 150;
+let level;
+let highScore;
+let newHighScore = false;

@@ -14,9 +14,9 @@ class Play extends Phaser.Scene{
         // load ground
         this.load.path = './assets/';
         this.load.atlas('character', 'character.png', 'character.json');
-        //this.load.spritesheet('character','character01.png');
         //this.load.image('arrowKey', 'arrowKey.png');
         this.load.image('background', 'background.png');
+        this.load.image('city','cities.png');
         //,{
         //     frameWideth:53.5, 
         //     frameHeight:64
@@ -26,25 +26,29 @@ class Play extends Phaser.Scene{
             frameHeight:27
         });
         this.load.image('ground', 'ground.png');
+                
+        //         //load player
+        //         //this.load.atlas('player', 'image.png', 'atlas.json');
+        //         //this.load.image('player', './assets/img/character.png');
+        //         this.load.animation('player', 'assets/img/character.json');
+        //         this.load.atlas('run', 'assets/img/character.png', 'assets/img/character.json');
+        //         //load item
         
+        //         //load animation of kill-virus
+        //         //this.load.spritesheet('kill', './assets/imgs/XXX', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
         }
         
-    create(){
+    create() {
         // variables and settings
         this.JUMP_VELOCITY = -700;
         this.MAX_JUMPS = 2;
         this.SCROLL_SPEED = 4;
-        currentScene = 3;
         this.physics.world.gravity.y = 2600;
-        /*
-        this.itemSpeed = -30;
-        this.itemSpeedMax = -100;
-        this.level = 0; 
-        this.player.death = falsh;
-        */
-
-        // add background
+        this.maskSpeed = -400;
+        level = 0;
+        // add tile sprite
         this.background = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'background').setOrigin(0);
+        this.city = this.add.tileSprite(0, -5, game.config.width, game.config.height, 'city').setOrigin(0);
 
         // make ground tiles group
         this.ground = this.add.group();
@@ -59,6 +63,10 @@ class Play extends Phaser.Scene{
 
         // set up character👦
         this.character = this.physics.add.sprite(120, game.config.height/2-tileSize, 'character', 'side').setScale(SCALE);
+
+        this.maskGroup = this.add.group({
+            runChildUpdate: true
+        });
 
         this.anims.create({ 
             key: 'walk', 
@@ -81,45 +89,32 @@ class Play extends Phaser.Scene{
             ],
         });
 
-        // // add arrow key graphics as UI
-        // this.upKey = this.add.sprite(64, 32, 'arrowKey');
-		// this.leftKey = this.add.sprite(32, 64, 'arrowKey');
-		// this.downKey = this.add.sprite(64, 64, 'arrowKey');
-		// this.rightKey = this.add.sprite(96, 64, 'arrowKey');
-		// this.leftKey.rotation = Math.PI/2*3;
-		// this.downKey.rotation = Math.PI;
-        // this.rightKey.rotation = Math.PI/2;
-        // this.leftKey.tint = 0x333333;
-        // this.downKey.tint = 0x333333;
-        // this.rightKey.tint = 0x333333;
-
-        
-       
         // set up Phaser-provided cursor key input
         cursors = this.input.keyboard.createCursorKeys();
 
         // add physics collider
         this.physics.add.collider(this.character, this.ground);
 
-        /* 
-        this.itemGroup = this.add.group(){
-            runChildUpdate: true    // make sure update runs on group children
-        }); 
-        this.physics.add.collider(this.mask, this.ground);
-        this.addMask();
-        */
+        // set up difficulty timer (triggers callback every second)
+        this.difficultyTimer = this.time.addEvent({
+            delay: 1000,
+            callback: this.levelBump,
+            callbackScope: this,
+            loop: true
+        });
+
     }
 
-    /*
-    addMask(){
-        let mask = new Mask(this, this.itemSpeed);     // create new mask
-        this.itemGroup.add(mask);                         // add it to existing group
+    addMask() {
+        let mask = new Mask(this, this.maskSpeed);
+        this.maskGroup.add(mask);
     }
-    */
 
-    update(){
+
+    update() {
         // update tile sprites (tweak for more "speed")
-        this.background.tilePositionX += this.SCROLL_SPEED;
+        this.background.tilePositionX += 3;
+        this.city.tilePositionX += this.SCROLL_SPEED;
         this.groundScroll.tilePositionX += this.SCROLL_SPEED;
 
 		// check if character is grounded
@@ -149,14 +144,26 @@ class Play extends Phaser.Scene{
 	    }
     }
 
-    //check pick up items
-    /* itemsCollision(){
-        //this.sound.play('pick', { volume: 0.5 });  // play pickup sound
-        this.score += this.mask.score;          //add bonus score
-        this.hp += this.mask.hp;                //add bonus hp
-        mask.pick();              
+    levelBump() {
+        // increment level (aka score)
+        level++;
+        //this.timeText.setText('Time: ' + level);
+        // if(level % 5 == 0) {
+        //     // RANDOM numbers
+        //     this.chanceToSpawnGlasses = Phaser.Math.Between(1, 3);
+        //     this.chanceToSpawnBinaryNumbers = Phaser.Math.Between(1, 2);
+        //     this.chanceToSpawnStopWatch = Phaser.Math.Between(1, 3);
+        //     // console.log(this.chanceToSpawnGlasses);
+        //     // console.log(this.chanceToSpawnBinaryNumbers);
+        //     // console.log(this.chanceToSpawnStopWatch);
+        // }
+        
+        // -------TIME RELATED SPAWNING---------------
+        //Spawns bullets after 9 seconds
+        if(level == 2) {
+            this.addMask();
+        }
     }
-    */
 }
 //     
 //     create(){
