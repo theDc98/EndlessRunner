@@ -21,16 +21,21 @@ class Mask extends Phaser.Physics.Arcade.Sprite{
         // override physics sprite update()
         super.update();
 
-        // add new mask when existing mask is picked
-        if(!this.newMask && this.pick) {
-            this.newMask = true;
-            // call parent scene method from this context
+        // add new mask when existing mask is over left-side picked
+        if(this.x < 0-game.config.width && this.newMask){
+            this.newMask = false;
             this.scene.addMask(this.parent, this.velocity);
         }
 
+        /*if(this.pick && this.newMask){
+            this.newMask = false;
+            // call parent scene method from this context
+            this.scene.addMask(this.parent, this.velocity);
+        }*/
+
         // eliminate mask if it reaches the left edge of the screen
-        if(this.x < -this.width) {
+        /*if(this.x < -this.width) {
             this.destroy();
-        }
+        }*/
     }   
 }

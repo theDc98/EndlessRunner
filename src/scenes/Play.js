@@ -125,7 +125,6 @@ class Play extends Phaser.Scene{
         let sanitizer = new Sanitizer(this, this.itemSpeed2);
         this.sanitizerGroup.add(sanitizer);
     }
-
     //add virus
     addVirus1(){
         let virus1 = new Virus1(this, this.virus1Speed);
@@ -136,7 +135,7 @@ class Play extends Phaser.Scene{
         this.virus2Group.add(virus2);
     }
     
-    update() {
+    update(){
         // update tile sprites (tweak for more "speed")
         this.background.tilePositionX += 3;
         this.city.tilePositionX += this.SCROLL_SPEED;
@@ -162,15 +161,15 @@ class Play extends Phaser.Scene{
 	    	this.jumps--;
 	    	this.jumping = false;
         }
-        
-       
+
+        //this.checkItemStatus(this.addMask.mask);
 
     }
 
-    levelBump() {
+    levelBump(){
         level++;
 
-        if(level == 2) {
+        if(level == 2){
             this.addMask();
             this.addAlcohol();
             this.addSanitizer();
@@ -178,53 +177,16 @@ class Play extends Phaser.Scene{
             this.addVirus2();
         }
     }
+
+    /*checkItemStatus(item){
+        if(item.pick || item.x<0-game.config.width){
+            this.addMask();
+        }
+    }*/
+
 }
-//     
-//     create(){
-//         //some parameters
-//         this.level = this.initialLevel;
-//         this.score = 0;
-//         let centerX = game.config.width/2;
 
-//         //随机数  game.rnd.integerInRange(min, max);
-//         //var value = Phaser.Math.Between(min, max);
-//         let a = Phaser.Math.Between(600, 1000); //maskX
-//         let b = Phaser.Math.Between(1200, 2000); //alcoholX
-//         let c = Phaser.Math.Between(800, 1200); //sanitizerX
-//         let d = Phaser.Math.Between(350, 1200); //virus1X
-//         let e = Phaser.Math.Between(500, 1000);  //virus2X
-//         let height1 = Phaser.Math.Between(200, 600); //maskY
-//         let height2 = Phaser.Math.Between(200, 600); //alcoholY
-//         let height3 = Phaser.Math.Between(200, 800); //sanitizerY  
 
-//         //jump input
-//         keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
-
-//         //place background
-//         this.background = this.add.tileSprite(0, 0, 800, 480, 'background').setOrigin(0.0);
-
-//         //add ground
-//         this.platform = this.physics.add.staticGroup();
-//         this.ground = this.platform.create(centerX, game.config.height-25, 'ground').setScale(1.8).refreshBody().setOrigin(0.5);
-//         this.ground.body.immovable = true;
-    
-//         //add player and physics system
-//         this.player = this.physics.add.sprite(30, 300, 'run').play('player').setOrigin(0.5);
-        
-//         this.physics.add.collider(this.player, this.ground);
-//         this.player.setCollideWorldBounds(true);
-//         this.player.setBounce(0.25);
-
-//         //add items
-//         this.mask = new Mask(this, game.config.width+a, height1, 'mask', 5).setOrigin(0, 5);
-//         this.alcohol = new Alcohol(this, game.config.width+b, height2, 'alcohol', 7).setOrigin(0, 5);
-//         this.sanitizer = new Sanitizer(this, game.config.width+c, height3, 'sanitizer', 10).setOrigin(0, 5);
-        
-//         //add virus
-//         this.virus1 = new Virus1(this, game.config.width+d, 350, 'virus1', 3).setOrigin(0.5);
-//         this.virus2 = new Virus2(this, game.config.width+e, 350, 'virus2', 5).setOrigin(0.5);
-//     }
-    
 //     //uncompleted
 //     update(){
 //         //some parameters
