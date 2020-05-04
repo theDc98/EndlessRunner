@@ -17,35 +17,28 @@ class Play extends Phaser.Scene{
         //this.load.image('arrowKey', 'arrowKey.png');
         this.load.image('background', 'background.png');
         this.load.image('city','cities.png');
-        //,{
-        //     frameWideth:53.5, 
-        //     frameHeight:64
-        // });
+
         this.load.image('block', 'block.png',{
             frameWideth:25, 
             frameHeight:27
         });
         this.load.image('ground', 'ground.png');
-                
-        //         //load player
-        //         //this.load.atlas('player', 'image.png', 'atlas.json');
-        //         //this.load.image('player', './assets/img/character.png');
-        //         this.load.animation('player', 'assets/img/character.json');
-        //         this.load.atlas('run', 'assets/img/character.png', 'assets/img/character.json');
-        //         //load item
-        
-        //         //load animation of kill-virus
-        //         //this.load.spritesheet('kill', './assets/imgs/XXX', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
+
         }
         
-    create() {
+    create(){
         // variables and settings
         this.JUMP_VELOCITY = -700;
         this.MAX_JUMPS = 2;
         this.SCROLL_SPEED = 4;
         this.physics.world.gravity.y = 2600;
-        this.maskSpeed = -400;
+        this.itemSpeed1 = -400;
+        this.itemSpeed2 = -500;
+        this.itemSpeed3 = -650;
+        this.virus1Speed = -450;
+        this.virus2Speed = -550;
         level = 0;
+
         // add tile sprite
         this.background = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'background').setOrigin(0);
         this.city = this.add.tileSprite(0, -5, game.config.width, game.config.height, 'city').setOrigin(0);
@@ -62,11 +55,7 @@ class Play extends Phaser.Scene{
         this.groundScroll = this.add.tileSprite(0, game.config.height-tileSize, game.config.width, tileSize, 'ground').setOrigin(0);
 
         // set up character👦
-        this.character = this.physics.add.sprite(120, game.config.height/2-tileSize, 'character', 'side').setScale(SCALE);
-
-        this.maskGroup = this.add.group({
-            runChildUpdate: true
-        });
+        this.character = this.physics.add.sprite(120, game.config.height-tileSize, 'character', 'side').setScale(SCALE).setOrigin(1.1);
 
         this.anims.create({ 
             key: 'walk', 
@@ -88,7 +77,7 @@ class Play extends Phaser.Scene{
                 { frame: 'side' }
             ],
         });
-
+        
         // set up Phaser-provided cursor key input
         cursors = this.input.keyboard.createCursorKeys();
 
@@ -103,14 +92,50 @@ class Play extends Phaser.Scene{
             loop: true
         });
 
+        //add items
+        this.maskGroup = this.add.group({
+            runChildUpdate: true
+        });
+        this.alcoholGroup = this.add.group({
+            runChildUpdate: true
+        });
+        this.sanitizerGroup = this.add.group({
+            runChildUpdate: true
+        });
+
+        //add virus
+        this.virus1Group = this.add.group({
+            runChildUpdate: true
+        });
+        this.virus2Group = this.add.group({
+            runChildUpdate: true
+        });
     }
 
-    addMask() {
-        let mask = new Mask(this, this.maskSpeed);
+    //add items
+    addMask(){
+        let mask = new Mask(this, this.itemSpeed1);
         this.maskGroup.add(mask);
     }
+    addAlcohol(){
+        let alcohol = new Alcohol(this, this.itemSpeed3);
+        this.alcoholGroup.add(alcohol);
+    }
+    addSanitizer(){
+        let sanitizer = new Sanitizer(this, this.itemSpeed2);
+        this.sanitizerGroup.add(sanitizer);
+    }
 
-
+    //add virus
+    addVirus1(){
+        let virus1 = new Virus1(this, this.virus1Speed);
+        this.virus1Group.add(virus1);
+    }
+    addVirus2(){
+        let virus2 = new Virus2(this, this.virus2Speed);
+        this.virus2Group.add(virus2);
+    }
+    
     update() {
         // update tile sprites (tweak for more "speed")
         this.background.tilePositionX += 3;
@@ -128,40 +153,29 @@ class Play extends Phaser.Scene{
 	    	this.character.anims.play('side');
 	    }
         // allow steady velocity change up to a certain key down duration
-        // see: https://photonstorm.github.io/phaser3-docs/Phaser.Input.Keyboard.html#.DownDuration__anchor
-	    if(this.jumps > 0 && Phaser.Input.Keyboard.DownDuration(cursors.up, 150)) {
+	    if(this.jumps > 0 && Phaser.Input.Keyboard.DownDuration(cursors.space, 150)) {
 	        this.character.body.velocity.y = this.JUMP_VELOCITY;
 	        this.jumping = true;
-	        //this.upKey.tint = 0xFACADE;
-	    } else {
-	    	//this.upKey.tint = 0xFFFFFF;
-	    }
+	    } 
         // finally, letting go of the UP key subtracts a jump
-        // see: https://photonstorm.github.io/phaser3-docs/Phaser.Input.Keyboard.html#.UpDuration__anchor
-	    if(this.jumping && Phaser.Input.Keyboard.UpDuration(cursors.up)) {
+	    if(this.jumping && Phaser.Input.Keyboard.UpDuration(cursors.space)) {
 	    	this.jumps--;
 	    	this.jumping = false;
-	    }
+        }
+        
+       
+
     }
 
     levelBump() {
-        // increment level (aka score)
         level++;
-        //this.timeText.setText('Time: ' + level);
-        // if(level % 5 == 0) {
-        //     // RANDOM numbers
-        //     this.chanceToSpawnGlasses = Phaser.Math.Between(1, 3);
-        //     this.chanceToSpawnBinaryNumbers = Phaser.Math.Between(1, 2);
-        //     this.chanceToSpawnStopWatch = Phaser.Math.Between(1, 3);
-        //     // console.log(this.chanceToSpawnGlasses);
-        //     // console.log(this.chanceToSpawnBinaryNumbers);
-        //     // console.log(this.chanceToSpawnStopWatch);
-        // }
-        
-        // -------TIME RELATED SPAWNING---------------
-        //Spawns bullets after 9 seconds
+
         if(level == 2) {
             this.addMask();
+            this.addAlcohol();
+            this.addSanitizer();
+            this.addVirus1();
+            this.addVirus2();
         }
     }
 }

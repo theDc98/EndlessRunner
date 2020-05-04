@@ -52,9 +52,10 @@ class Instru extends Phaser.Scene{
         this.add.text(centerX+50, 260, ' Virus1 will reduce 2 hp ', instruConfig).setOrigin(0.5);
         this.add.image(centerX/4, 320, 'virus1').setScale(1.5).setOrigin(0.5);
         this.add.text(centerX+50, 320, ' Virus2 will reduce 4 hp ', instruConfig).setOrigin(0.5);
+        this.add.text(centerX, 385, 'Click SPACE to JUMP!', instruConfig).setOrigin(0.5);
         
         //type space to play
-        this.add.text(centerX, 400, 'Type SPACE to Play', instruConfig).setOrigin(0.5);
+        this.add.text(centerX, 420, 'Type SPACE to Play', instruConfig).setOrigin(0.5);
         keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
     }
 
