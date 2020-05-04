@@ -13,8 +13,10 @@ class Play extends Phaser.Scene{
         
         // load ground
         this.load.path = './assets/';
+        this.load.audio('background_music', 'endless runner.wav');
+        this.load.audio('pickup_music', 'pickup.wav');
+        this.load.audio('hit_music', 'hit.wav');
         this.load.atlas('character', 'character.png', 'character.json');
-        //this.load.image('arrowKey', 'arrowKey.png');
         this.load.image('background', 'background.png');
         this.load.image('city','cities.png');
 
@@ -39,6 +41,14 @@ class Play extends Phaser.Scene{
         this.virus2Speed = -500;
         level = 0;
 
+        //creat background music
+        this.backgroundMusic = this.sound.add('background_music',{
+            mute: false,
+            volume: 0.5,
+            rate: 1,
+            loop: true 
+        });
+        this.backgroundMusic.play();
         // add tile sprite
         this.background = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'background').setOrigin(0);
         this.city = this.add.tileSprite(0, -5, game.config.width, game.config.height, 'city').setOrigin(0);
@@ -110,6 +120,22 @@ class Play extends Phaser.Scene{
         this.virus2Group = this.add.group({
             runChildUpdate: true
         });
+
+        //ADD text
+        this.HealthText= this.add.text(10, 10, `Health: ${level}`, { 
+            fontFamily: 'Helvetica', 
+            fontSize: '30px', 
+            color: '#083721' , 
+            stroke: '#000000', 
+            strokeThickness: 3
+        });
+        this.ScoreText= this.add.text(600, 10, `Score: ${level}`, { 
+            fontFamily: 'Helvetica', 
+            fontSize: '30px', 
+            color: '#083721' , 
+            stroke: '#000000', 
+            strokeThickness: 3});
+        
     }
 
     //add items
@@ -162,6 +188,12 @@ class Play extends Phaser.Scene{
 	    	this.jumping = false;
         }
 
+        if(this.physics.overlap(this.character, this.virus1Group)) {
+                this.virus1 = this.virus1Group.getFirst(true);
+                this.virus1.destroy();
+                this.addVirus1();
+                this.sound.play("hit_music",{volume:1});
+        }
 
     }
 
