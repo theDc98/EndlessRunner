@@ -16,41 +16,35 @@ class Play extends Phaser.Scene{
         //this.load.atlas('character', 'character.png', 'character.json');
         //this.load.spritesheet('character','character01.png');
         //this.load.image('arrowKey', 'arrowKey.png');
-        this.load.image('background', '.background.png');
+        this.load.image('background', 'background.png');
         //,{
         //     frameWideth:53.5, 
         //     frameHeight:64
         // });
-        this.load.image('block', '.block.png',{
+        this.load.image('block', 'block.png',{
             frameWideth:25, 
             frameHeight:27
         });
         this.load.image('ground', 'ground.png');
-                
-        //         //load player
-        //         //this.load.atlas('player', 'image.png', 'atlas.json');
-        //         //this.load.image('player', './assets/img/character.png');
-        //         this.load.animation('player', 'assets/img/character.json');
-        //         this.load.atlas('run', 'assets/img/character.png', 'assets/img/character.json');
-        //         //load item
         
-        //         //load animation of kill-virus
-        //         //this.load.spritesheet('kill', './assets/imgs/XXX', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
         }
         
-    create() {
+    create(){
         // variables and settings
         this.JUMP_VELOCITY = -700;
         this.MAX_JUMPS = 2;
         this.SCROLL_SPEED = 4;
         currentScene = 3;
         this.physics.world.gravity.y = 2600;
+        /*
+        this.itemSpeed = -30;
+        this.itemSpeedMax = -100;
+        this.level = 0; 
+        this.player.death = falsh;
+        */
 
-        // add tile sprite
+        // add background
         this.background = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'background').setOrigin(0);
-
-        // // print Scene name
-        // this.add.text(game.config.width/2, 30, 'Scene 5: Endless Strollin\'', { font: '14px Futura', fill: '#00AA11' }).setOrigin(0.5);
 
         // make ground tiles group
         this.ground = this.add.group();
@@ -99,44 +93,31 @@ class Play extends Phaser.Scene{
         // this.downKey.tint = 0x333333;
         // this.rightKey.tint = 0x333333;
 
+        
+       
         // set up Phaser-provided cursor key input
         cursors = this.input.keyboard.createCursorKeys();
 
         // add physics collider
         this.physics.add.collider(this.character, this.ground);
 
-        // // set up Scene switcher
-        // this.input.keyboard.on('keydown', (event) => {
-        //     //console.log(event);
-        //     switch(event.key) {
-        //         case '1':
-        //             this.scene.start("velocityScene");
-        //             break;
-        //         case '2':
-        //             this.scene.start("accelerationScene");
-        //             break;
-        //         case '3':
-        //             this.scene.start("fixedJumpScene");
-        //             break;
-        //         case '4':
-        //             this.scene.start("variableJumpScene");
-        //             break;
-        //         case '5':
-        //             this.scene.start("runnerScene");
-        //             break;
-        //         case '6':
-        //             this.scene.start("pogoScene");
-        //             break;
-        //         case '7':
-        //             this.scene.start("asteroidsScene");
-        //             break;
-        //         default:
-        //             break;
-        //     }
-        // });
+        /* 
+        this.itemGroup = this.add.group(){
+            runChildUpdate: true    // make sure update runs on group children
+        }); 
+        this.physics.add.collider(this.mask, this.ground);
+        this.addMask();
+        */
     }
 
-    update() {
+    /*
+    addMask(){
+        let mask = new Mask(this, this.itemSpeed);     // create new mask
+        this.itemGroup.add(mask);                         // add it to existing group
+    }
+    */
+
+    update(){
         // update tile sprites (tweak for more "speed")
         this.background.tilePositionX += this.SCROLL_SPEED;
         this.groundScroll.tilePositionX += this.SCROLL_SPEED;
@@ -167,6 +148,15 @@ class Play extends Phaser.Scene{
 	    	this.jumping = false;
 	    }
     }
+
+    //check pick up items
+    /* itemsCollision(){
+        //this.sound.play('pick', { volume: 0.5 });  // play pickup sound
+        this.score += this.mask.score;          //add bonus score
+        this.hp += this.mask.hp;                //add bonus hp
+        mask.pick();              
+    }
+    */
 }
 //     
 //     create(){

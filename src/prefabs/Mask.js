@@ -1,24 +1,33 @@
 //mask prehabs
-class Mask extends Phaser.GameObjects.Sprite{
-    constructor(scene, x, y, texture, pointValue){
-        super(scene, x, y, texture)
-
-        scene.add.existing(this);  //add object to existing, displayList, updateList
-        this.points = pointValue;
+class Mask extends Phaser.Physics.Arcade.Sprite{
+    constructor(scene, velocity) {
+        // call Phaser Physics Sprite constructor
+        super(scene, game.config.width, Phaser.Math.Between(80, 370), 'mask'); 
+        // set up physics sprite
+        scene.add.existing(this);               // add to existing scene, displayList, updateList
+        scene.physics.add.existing(this);       // add physics body
+        this.setVelocityX(velocity);            // make it go!
+        this.setImmovable();                    
+        this.newMask = true;                    // custom property to control barrier spawning
+        this.pick = false;                      // pick for new mask
+        this.score = 5;
+        this.hp = 1;
     }
 
-    update(){
-        //move mask left
-        this.x -= game.settings.initialSpeed;
+    update() {
+        // override physics sprite update()
+        super.update();
 
-        //wraparound screen bounds
-        if(this.x <= 0 - this.width){
-            this.x = game.config.width + game.rnd.integerInRange(550, 1000);
+        // add new mask when existing mask is picked
+        if(!this.newMask && this.pick) {
+            this.newMask = true;
+            // call parent scene method from this context
+            this.scene.addMask(this.parent, this.velocity);
+        }
+
+        // eliminate mask if it reaches the left edge of the screen
+        if(this.x < -this.width) {
+            this.destroy();
         }
     }   
-    
-    //reset mask
-    reset(){
-        this.x = game.config.width + game.rnd.integerInRange(550, 1200);
-    }
 }
