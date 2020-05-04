@@ -21,16 +21,10 @@ class Virus1 extends Phaser.Physics.Arcade.Sprite{
         // override physics sprite update()
         super.update();
 
-        // add new virus1 when existing virus1 is picked
-        if(!this.newVirus1 && this.pick) {
-            this.newVirus1 = true;
-            // call parent scene method from this context
+        // add new virus1 when existing virus1 is over left-side picked
+        if(this.x < 0-game.config.width && this.newVirus1){
+            this.newVirus1 = false;
             this.scene.addVirus1(this.parent, this.velocity);
-        }
-
-        // eliminate virus1 if it reaches the left edge of the screen
-        if(this.x < -this.width) {
-            this.destroy();
         }
     }   
 }

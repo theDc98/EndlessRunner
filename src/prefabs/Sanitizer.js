@@ -21,16 +21,10 @@ class Sanitizer extends Phaser.Physics.Arcade.Sprite{
         // override physics sprite update()
         super.update();
 
-        // add new sanitizer when existing sanitizer is picked
-        if(!this.newSanitizer && this.pick){
-            this.newSanitizer = true;
-            // call parent scene method from this context
+        // add new sanitizer when existing sanitizer is over left-side picked
+        if(this.x < 0-game.config.width && this.newSanitizer){
+            this.newSanitizer = false;
             this.scene.addSanitizer(this.parent, this.velocity);
-        }
-
-        // eliminate sanitizer if it reaches the left edge of the screen
-        if(this.x < -this.width){
-            this.destroy();
         }
     }   
 }

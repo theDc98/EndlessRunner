@@ -33,10 +33,10 @@ class Play extends Phaser.Scene{
         this.SCROLL_SPEED = 4;
         this.physics.world.gravity.y = 2600;
         this.itemSpeed1 = -400;
-        this.itemSpeed2 = -500;
-        this.itemSpeed3 = -650;
+        this.itemSpeed2 = -480;
+        this.itemSpeed3 = -530;
         this.virus1Speed = -450;
-        this.virus2Speed = -550;
+        this.virus2Speed = -500;
         level = 0;
 
         // add tile sprite
@@ -162,7 +162,6 @@ class Play extends Phaser.Scene{
 	    	this.jumping = false;
         }
 
-        //this.checkItemStatus(this.addMask.mask);
 
     }
 

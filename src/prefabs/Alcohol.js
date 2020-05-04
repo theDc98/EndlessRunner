@@ -21,16 +21,10 @@ class Alcohol extends Phaser.Physics.Arcade.Sprite{
         // override physics sprite update()
         super.update();
 
-        // add new alcohol when existing alcohol is picked
-        if(!this.newAlcohol && this.pick) {
-            this.newAlcohol = true;
-            // call parent scene method from this context
+        // add new alcohol when existing alcohol is over left-side picked
+        if(this.x < 0-game.config.width && this.newAlcohol){
+            this.newAlcohol = false;
             this.scene.addAlcohol(this.parent, this.velocity);
-        }
-
-        // eliminate alcohol if it reaches the left edge of the screen
-        if(this.x < -this.width) {
-            this.destroy();
         }
     }   
 }
