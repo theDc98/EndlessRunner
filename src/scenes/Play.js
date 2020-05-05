@@ -82,7 +82,32 @@ class Play extends Phaser.Scene{
                 { frame: 'side' }
             ],
         });
-        
+
+        this.anims.create({ 
+            key: 'spray', 
+            frames: this.anims.generateFrameNames('character', {      
+                prefix: 'spray',
+                start: 1,
+                end: 2,
+                suffix: '',
+                zeroPad: 4 
+            }), 
+            frameRate: 10,
+            repeat: -1 
+        });
+
+        this.anims.create({ 
+            key: 'death', 
+            frames: this.anims.generateFrameNames('character', {      
+                prefix: 'death',
+                start: 1,
+                end: 2,
+                suffix: '',
+                zeroPad: 4 
+            }), 
+            frameRate: 10,
+            repeat: -1 
+        });
         // set up Phaser-provided cursor key input
         cursors = this.input.keyboard.createCursorKeys();
 
@@ -118,16 +143,18 @@ class Play extends Phaser.Scene{
 
         //ADD text
         this.HealthText= this.add.text(10, 10, `Health: ${health}`, { 
+            backgroundColor: '#000000',
             fontFamily: 'Helvetica', 
             fontSize: '30px', 
-            color: '#083721' , 
+            color: '#CD00CD' , 
             stroke: '#000000', 
             strokeThickness: 3
         });
         this.ScoreText= this.add.text(600, 10, `Score: ${score}`, { 
+            backgroundColor: '#000000',
             fontFamily: 'Helvetica', 
             fontSize: '30px', 
-            color: '#083721' , 
+            color: '#CD00CD' , 
             stroke: '#000000', 
             strokeThickness: 3});
         
@@ -182,7 +209,7 @@ class Play extends Phaser.Scene{
 	    	this.jumps--;
 	    	this.jumping = false;
         }
-
+        if (health>0){
         if(this.physics.overlap(this.character, this.virus1Group)) {
                 this.virus1 = this.virus1Group.getFirst(true);
                 this.virus1.destroy();
@@ -209,6 +236,7 @@ class Play extends Phaser.Scene{
                 this.alcohol.destroy();
                 this.itemCollision(this.alcohol);
         }
+    }
 
     }
 
@@ -245,20 +273,97 @@ class Play extends Phaser.Scene{
         this.HealthText.setText('Health: ' + health);
         }
         this.ScoreText.setText('Score: ' + score);
+        console.log(score);
     }
 
     virusCollision(item) {
         this.sound.play("hit_music",{volume:1});
-        if(health > 0){
-        health -= item.hp;
-        this.HealthText.setText('Health: ' + health);
-        } else{
-            GameOver();
+        if(health-item.hp <=0){
+            this.GameOver();
+            health -= item.hp;
+        } else {
+            health -= item.hp;
+            this.HealthText.setText('Health: ' + health);
         }
+        console.log(health);
     }
 
     GameOver(){
+        this.backgroundMusic.stop();
         //this.sound.play("pickup_music",{volume:1});
+        this.virus1Group.clear();
+        this.virus2Group.clear();
+        this.maskGroup.clear();
+        this.alcoholGroup.clear();
+        this.sanitizerGroup.clear();
+        this.HealthText.destroy();
+        this.ScoreText.destroy();
 
+        console.log("gameover");
+         // check for high score in local storage
+        if (localStorage.getItem('highScore') != null){
+            let storedScore = parseInt(localStorage.getItem('highScore'));
+            // see if current score is higher than stored score
+            if(score > storedScore) {
+                localStorage.setItem('highScore', score.toString());
+                highScore = score;
+                newHighScore = true;
+            } else {
+                highScore = parseInt(localStorage.getItem('highScore'));
+                newHighScore = false;
+            }
+        } else {
+            highScore = score;
+            localStorage.setItem('highScore', highScore.toString());
+            newHighScore = true;
+        }
+         // Prints out New HighScore!
+        if(newHighScore) {
+            this.add.text(centerX, centerY -10, `Congratulation! New Hi-Score!!` , {
+                backgroundColor: '#000000',
+                fontFamily: 'Helvetica', 
+                fontSize: '40px', 
+                color: '#CD00CD', 
+                strokeThickness: 3 
+                }).setOrigin(0.5);
+        }
+        this.add.text(centerX, centerY - 160, `WOW! You ran for: ${level}S` , { 
+            backgroundColor: '#000000',
+            fontFamily: 'Helvetica', 
+            fontSize: '34px', 
+            color: '#CD00CD', 
+            strokeThickness: 3 
+        }).setOrigin(0.5);
+        this.add.text(centerX, centerY - 120, `You score is: ${score}` , { 
+            backgroundColor: '#000000',
+            fontFamily: 'Helvetica', 
+            fontSize: '34px', 
+            color: '#CD00CD', 
+            strokeThickness: 3 
+        }).setOrigin(0.5);
+        this.add.text(centerX, centerY - 80, `Your Hi-Score: ${highScore}`, { 
+            backgroundColor: '#000000',
+            fontFamily: 'Helvetica', 
+            fontSize: '34px', 
+            color: '#CD00CD', 
+            strokeThickness: 3 
+        }).setOrigin(0.5);
+
+        this.clock = this.time.delayedCall(4000, () => { 
+            this.add.text(centerX, centerY - 40, `Press R to restart the game.`, { 
+                backgroundColor: '#000000',
+                fontFamily: 'Helvetica', 
+                fontSize: '34px', 
+                color: '#CD00CD', 
+                strokeThickness: 3 
+            }).setOrigin(0.5);
+            this.add.text(centerX, centerY, `Press Q to go back to main menu.`, { 
+                backgroundColor: '#000000',
+                fontFamily: 'Helvetica', 
+                fontSize: '34px', 
+                color: '#CD00CD', 
+                strokeThickness: 3 
+            }).setOrigin(0.5);
+        }, null, this);
     }
 }

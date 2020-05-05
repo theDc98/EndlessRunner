@@ -25,23 +25,15 @@ class Instru extends Phaser.Scene{
 
         //UI and text
         let instruConfig = {
+            color: '#000000',
             fontFamily: 'Courier',
             fontSize: '28px',
             align: 'left',
             fixedWidth: 0,
         }
-        let centerX = game.config.width/2;
-        let centerY = game.config.height/2;
-        let textSpacer = 64;
-
-        /* this.add.text(centerX, centerY - textSpacer, 'Covid-19 Run!', menuConfig).setOrigin(0.5);
-        this.add.text(centerX, centerY, 'Type SPACE to start', menuConfig).setOrigin(0.5);
-        
-        this.add.text(centerX, centerY + textSpacer, 'Press <- for Easy or -> for Hard', menuConfig).setOrigin(0.5); */
-        //console.log(this);
 
         //add instructions
-        this.add.text(centerX, 30, 'Instruction', instruConfig).setOrigin(0.5);
+        this.add.text(centerX, 30, 'Instruction', {color: '#000000', fontSize: '32px', strokeThickness: 3}).setOrigin(0.5);
         this.add.image(centerX/4, 80, 'mask').setScale(1.5).setOrigin(0.5);
         this.add.text(centerX+50, 80, ' Mask will add 1 HP & 5 points', instruConfig).setOrigin(0.5);
         this.add.image(centerX/4, 140, 'alcohol').setScale(1.5).setOrigin(0.5);
