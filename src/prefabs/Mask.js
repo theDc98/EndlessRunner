@@ -2,7 +2,7 @@
 class Mask extends Phaser.Physics.Arcade.Sprite{
     constructor(scene, velocity) {
         // call Phaser Physics Sprite constructor
-        super(scene, game.config.width+Phaser.Math.Between(game.config.width, game.config.width*2), Phaser.Math.Between(100, 380), 'mask'); 
+        super(scene, game.config.width+Phaser.Math.Between(game.config.width, game.config.width*2), Phaser.Math.Between(220, 370), 'mask'); 
         // set up physics sprite
         scene.add.existing(this);               // add to existing scene, displayList, updateList
         scene.physics.add.existing(this);       // add physics body
@@ -21,11 +21,14 @@ class Mask extends Phaser.Physics.Arcade.Sprite{
         // override physics sprite update()
         super.update();
 
-        // add new mask when existing mask is over left-side picked
-        if(this.x < 0-game.config.width && this.newMask){
-            this.newMask = false;
-            this.scene.addMask(this.parent, this.velocity);
+        if (this.x < -51){
+            this.destroy();
         }
+        // add new mask when existing mask is over left-side picked
+        // if(this.x < 0-game.config.width && this.newMask){
+        //     this.newMask = false;
+        //     this.scene.addMask(this.parent, this.velocity);
+        // }
 
         /*if(this.pick && this.newMask){
             this.newMask = false;

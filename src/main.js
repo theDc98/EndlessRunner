@@ -6,7 +6,7 @@
 let cursors;
 let currentScene = 0;
 const SCALE = 1;
-const tileSize = 35;
+const tileSize = 27;
 
 let config = {
     type: Phaser.AUTO,
@@ -32,7 +32,7 @@ let keySPACE, keyF;
 //define Game Settings
 game.settings = {
     initialLevel: 0,
-    initialSpeed: 2,
+    initialSpeed: 1,
 
     
 }
@@ -40,10 +40,11 @@ game.settings = {
 let centerX = game.config.width/2;
 let centerY = game.config.height/2;
 const textSpacer = 64;
-let paddle = null;
-const paddleWidth = 16;
-const paddleHeight = 128;
-const paddleVelocity = 150;
+// let paddle = null;
+// const paddleWidth = 16;
+// const paddleHeight = 128;
+// const paddleVelocity = 150;
 let level;
-let highScore;
+let score;
+let health;
 let newHighScore = false;

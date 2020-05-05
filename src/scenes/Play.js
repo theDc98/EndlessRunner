@@ -3,15 +3,7 @@ class Play extends Phaser.Scene{
         super("playScene");
     }
     preload(){
-        //         //load Audio
-        //         /* this.load.path = './assets/audio/';
-        //         this.load.audio('jump', 'XXX');
-        //         this.load.audio('pick', 'XXX');
-        //         this.load.audio('fire', 'XXX');
-        //         this.load.audio('die', 'XXX');
-        //         this.load.audio('infected', 'XXX'); */
-        
-        // load ground
+        // load 
         this.load.path = './assets/';
         this.load.audio('background_music', 'endless runner.wav');
         this.load.audio('pickup_music', 'pickup.wav');
@@ -32,14 +24,17 @@ class Play extends Phaser.Scene{
         // variables and settings
         this.JUMP_VELOCITY = -700;
         this.MAX_JUMPS = 2;
-        this.SCROLL_SPEED = 4;
+        this.Speedup = 0;
+        this.virusSpeedup = 0;
         this.physics.world.gravity.y = 2600;
         this.itemSpeed1 = -400;
         this.itemSpeed2 = -480;
         this.itemSpeed3 = -530;
         this.virus1Speed = -450;
         this.virus2Speed = -500;
+        score = 0;
         level = 0;
+        health = 10;
 
         //creat background music
         this.backgroundMusic = this.sound.add('background_music',{
@@ -65,7 +60,7 @@ class Play extends Phaser.Scene{
         this.groundScroll = this.add.tileSprite(0, game.config.height-tileSize, game.config.width, tileSize, 'ground').setOrigin(0);
 
         // set up character👦
-        this.character = this.physics.add.sprite(120, game.config.height-tileSize, 'character', 'side').setScale(SCALE).setOrigin(1.1);
+        this.character = this.physics.add.sprite(120, game.config.height-tileSize, 'character', 'side').setScale(SCALE).setOrigin(1);
 
         this.anims.create({ 
             key: 'walk', 
@@ -122,14 +117,14 @@ class Play extends Phaser.Scene{
         });
 
         //ADD text
-        this.HealthText= this.add.text(10, 10, `Health: ${level}`, { 
+        this.HealthText= this.add.text(10, 10, `Health: ${health}`, { 
             fontFamily: 'Helvetica', 
             fontSize: '30px', 
             color: '#083721' , 
             stroke: '#000000', 
             strokeThickness: 3
         });
-        this.ScoreText= this.add.text(600, 10, `Score: ${level}`, { 
+        this.ScoreText= this.add.text(600, 10, `Score: ${score}`, { 
             fontFamily: 'Helvetica', 
             fontSize: '30px', 
             color: '#083721' , 
@@ -140,32 +135,32 @@ class Play extends Phaser.Scene{
 
     //add items
     addMask(){
-        let mask = new Mask(this, this.itemSpeed1);
+        let mask = new Mask(this, this.itemSpeed1).setScale(1.5);
         this.maskGroup.add(mask);
     }
     addAlcohol(){
-        let alcohol = new Alcohol(this, this.itemSpeed3);
+        let alcohol = new Alcohol(this, this.itemSpeed3).setScale(1.5);
         this.alcoholGroup.add(alcohol);
     }
     addSanitizer(){
-        let sanitizer = new Sanitizer(this, this.itemSpeed2);
+        let sanitizer = new Sanitizer(this, this.itemSpeed2).setScale(1.5);
         this.sanitizerGroup.add(sanitizer);
     }
     //add virus
     addVirus1(){
-        let virus1 = new Virus1(this, this.virus1Speed);
+        let virus1 = new Virus1(this, this.virus1Speed).setScale(1.1);
         this.virus1Group.add(virus1);
     }
     addVirus2(){
-        let virus2 = new Virus2(this, this.virus2Speed);
+        let virus2 = new Virus2(this, this.virus2Speed).setScale(1.1);
         this.virus2Group.add(virus2);
     }
     
     update(){
         // update tile sprites (tweak for more "speed")
-        this.background.tilePositionX += 3;
-        this.city.tilePositionX += this.SCROLL_SPEED;
-        this.groundScroll.tilePositionX += this.SCROLL_SPEED;
+        this.background.tilePositionX += 0.5;
+        this.city.tilePositionX += 1;
+        this.groundScroll.tilePositionX += 1;
 
 		// check if character is grounded
 	    this.character.isGrounded = this.character.body.touching.down;
@@ -191,145 +186,79 @@ class Play extends Phaser.Scene{
         if(this.physics.overlap(this.character, this.virus1Group)) {
                 this.virus1 = this.virus1Group.getFirst(true);
                 this.virus1.destroy();
-                this.addVirus1();
-                this.sound.play("hit_music",{volume:1});
+                this.virusCollision(this.virus1);
+                
+        }
+        if(this.physics.overlap(this.character, this.virus2Group)) {
+                this.virus2 = this.virus2Group.getFirst(true);
+                this.virus2.destroy();
+                this.virusCollision(this.virus2);
+        }
+        if(this.physics.overlap(this.character, this.maskGroup)) {
+                this.mask = this.maskGroup.getFirst(true);
+                this.mask.destroy();
+                this.itemCollision(this.mask);
+        }
+        if(this.physics.overlap(this.character, this.sanitizerGroup)) {
+                this.sanitizer = this.sanitizerGroup.getFirst(true);
+                this.sanitizer.destroy();
+                this.itemCollision(this.sanitizer);
+        }
+        if(this.physics.overlap(this.character, this.alcoholGroup)) {
+                this.alcohol = this.alcoholGroup.getFirst(true);
+                this.alcohol.destroy();
+                this.itemCollision(this.alcohol);
         }
 
     }
 
     levelBump(){
         level++;
-
-        if(level == 2){
+        if(level/20 == 1){
+            this.Speedup += 1;
+        }
+        if(level/30 == 1 && this.virusSpeedup < 1.5){
+            this.virusSpeedup += 0.5;
+        }
+        if(level % (5+ this.Speedup) == 1){
             this.addMask();
+        }
+        if(level % (8 + this.Speedup) == 1){
             this.addAlcohol();
+        }
+        if(level % (12+ this.Speedup) == 1){   
             this.addSanitizer();
+        }
+        if(level % (3-this.virusSpeedup) == 1){
             this.addVirus1();
+        }
+        if(level % (2-this.virusSpeedup) == 1){
             this.addVirus2();
         }
     }
 
-    /*checkItemStatus(item){
-        if(item.pick || item.x<0-game.config.width){
-            this.addMask();
+    itemCollision(item) {
+        this.sound.play("pickup_music",{volume:1});
+        score += item.score;
+        if(health<10){
+        health += item.hp;
+        this.HealthText.setText('Health: ' + health);
         }
-    }*/
+        this.ScoreText.setText('Score: ' + score);
+    }
 
+    virusCollision(item) {
+        this.sound.play("hit_music",{volume:1});
+        if(health > 0){
+        health -= item.hp;
+        this.HealthText.setText('Health: ' + health);
+        } else{
+            GameOver();
+        }
+    }
+
+    GameOver(){
+        //this.sound.play("pickup_music",{volume:1});
+
+    }
 }
-
-
-//     //uncompleted
-//     update(){
-//         //some parameters
-//         let centerX = game.config.width/2;
-//         let centerY = game.config.height/2;
-
-//         //scroll the background
-//         this.background.tilePositionX += 5; 
-        
-//         //player status
-//         this.checkDeath(this.hp);
-        
-//         //player alive and keep running
-//         if(!this.Death){
-//             //check key input for jump
-//             if(this.player.body.touching.down && Phaser.Input.Keyboard.JustDown(keySPACE)){
-//                 this.player.update();
-//             }
-//             /* if(Phaser.Input.Keyboard.JustDown(keyF)){
-//                 //kill virus
-//             } */
-
-//         }else{
-//             this.add.text(centerX, centerY*0.8, 'Game Over', textConfig).setOrigin(0.5);
-//             this.add.text(centerX, centerY * 1.3 , 'SPACE to restart OR F to return Mene', textConfig).setOrigin(0.5);
-//             //check key input for restart
-//             if(Phaser.Input.Keyboard.JustDown(keySPACE)){
-//                 this.scene.restart("playScene");
-//             }
-//             //check key input for exit
-//             if(Phaser.Input.Keyboard.JustDown(keyF)){
-//                 this.scene.start("menuScene");
-//             }
-//         }
-
-//         //infected by virus
-//         if(this.checkVirus(this.player, this.Virus1)){
-//             this.elementDisappear(this.virus1);
-//             hp -= 2;
-//             //this.sound.play('infected', {volume: 0.5});
-//             this.checkDeath(this.hp);
-//         }
-//         if(this.checkVirus(this.player, this.Virus2)){
-//             this.elementDisappear(this.virus2);
-//             hp -= 4;
-//             //this.sound.play('infected', {volume: 0.5});
-//             this.checkDeath(this.hp);
-//         }
-
-//         //pick up items
-//         if(this.checkPick(this.player, this.mask)){
-//             this.elementDisappear(this.mask);
-//             this.hp += 1;
-//             this.score += mask.points;
-//         }
-//         if(this.checkPick(this.player, this.sanitizer)){
-//             this.elementDisappear(this.sanitizer);
-//             this.hp += 2;
-//             this.score += sanitizer.points;
-//         }
-//         if(this.checkPick(this.player, this.alcohol)){
-//             this.elementDisappear(this.alcohol);
-//             // this.bullet++;
-//             this.score += alcohol.points;
-//         }
-
-//         //kill virus
-
-//         //speed up
-//         game.time.events.repeat(5000, 10, speedUp(), this);
-        
-//     }
-
-//     speedUp(){
-//         level++;
-//         this.initialSpeed += level;
-//     }
-
-//     checkPick(player, item){
-//         //pick up items
-//         if(player.x < item.x + item.width &&
-//             player.x + player.width > item.x &&
-//             player.y < item.y + item.height &&
-//             player.height + player.y > item.y){
-//                 return true;
-//          }else{
-//              return false;
-//          }
-//     }
-
-//     checkVirus(player, virus){
-//         //killed by virus
-//         if(player.x < virus.x + virus.width &&
-//             player.x + player.width > virus.x &&
-//             player.y < virus.y + virus.height &&
-//             player.height + player.y > virus.y){
-//                 return true;
-//          }else{
-//              return false;
-//          }
-//     }
-
-//     checkDeath(hp){
-//         if(hp<=0){
-//             return this.isDead = true;
-//         }else{
-//             return this.isDead = false;
-//         }
-//     }
-    
-//     /* elementDisappear(element){
-
-
-//     } */
-// }
