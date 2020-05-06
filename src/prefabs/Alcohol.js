@@ -2,7 +2,7 @@
 class Alcohol extends Phaser.Physics.Arcade.Sprite{
     constructor(scene, velocity) {
         // call Phaser Physics Sprite constructor
-        super(scene, game.config.width+Phaser.Math.Between(game.config.width, game.config.width*2), Phaser.Math.Between(120, 350), 'alcohol'); 
+        super(scene, game.config.width+Phaser.Math.Between(game.config.width, game.config.width*2), Phaser.Math.Between(100, 350), 'alcohol'); 
         // set up physics sprite
         scene.add.existing(this);               // add to existing scene, displayList, updateList
         scene.physics.add.existing(this);       // add physics body
@@ -11,7 +11,7 @@ class Alcohol extends Phaser.Physics.Arcade.Sprite{
         this.newAlcohol = true;                    // custom property to control barrier spawning
         this.pick = false;                      // pick for new alcohol
         this.score = 5;
-        this.hp = 1;
+        this.hp = 0;
 
        //没有重力，在水平线
         this.body.setAllowGravity(false);

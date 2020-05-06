@@ -3,10 +3,6 @@
 //Game Title: Covid-19 Run!
 //Date completed: 
 //Creative title:
-let cursors;
-let currentScene = 0;
-const SCALE = 1;
-const tileSize = 27;
 
 let config = {
     type: Phaser.AUTO,
@@ -36,17 +32,20 @@ game.settings = {
 
     
 }
+
 // define globals
+let cursors;
+let currentScene = 0;
+const SCALE = 1;
+const tileSize = 27;
+
 let centerX = game.config.width/2;
 let centerY = game.config.height/2;
 const textSpacer = 64;
-// let paddle = null;
-// const paddleWidth = 16;
-// const paddleHeight = 128;
-// const paddleVelocity = 150;
 let level;
 let score;
 let health;
 let highScore;
+let alcohol;
 let newHighScore = false;
-let Gameover;
+let Gameover = false;
