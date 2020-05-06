@@ -332,10 +332,10 @@ class Play extends Phaser.Scene{
             score += item.score;
             this.ScoreText.setText('Score: ' + score);
         } else {
-            this.sound.play("hit_music",{volume:1});
             if (health-item.hp <=0){
                 Gameover = true;
                 this.particles = this.add.particles('ghost');
+                this.sound.play("death_music",{volume:1});
                 this.emitter = this.particles.createEmitter({
                     speed: 50,
                     lifespan: 1000,
@@ -351,6 +351,7 @@ class Play extends Phaser.Scene{
                 this.GameOver();
                 health -= item.hp;
             } else {
+                this.sound.play("hit_music",{volume:0.6});
                 health -= item.hp;
                 this.HealthText.setText('Health: ' + health);
             }
