@@ -48,4 +48,4 @@ let health;
 let highScore;
 let alcohol;
 let newHighScore = false;
-let Gameover = false;
+let Gameover;

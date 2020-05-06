@@ -17,6 +17,7 @@ class Play extends Phaser.Scene{
         //imgs
         this.load.atlas('character', 'character.png', 'character.json');
         this.load.image('background', 'background.png');
+        this.load.image('ghost', 'ghost.png');
         this.load.image('city','cities.png');
         this.load.image('block', 'block.png',{
             frameWideth:25, 
@@ -43,6 +44,7 @@ class Play extends Phaser.Scene{
         health = 10;
         alcohol = 0;
         this.Spray = false;
+        Gameover = false;
 
         //create background music
         this.backgroundMusic = this.sound.add('background_music',{mute: false, volume: 0.5, rate: 1,loop: true });
@@ -202,30 +204,32 @@ class Play extends Phaser.Scene{
         this.background.tilePositionX += 0.5;
         this.city.tilePositionX += 1;
         this.groundScroll.tilePositionX += 1;
-
-		// check if character is grounded
-	    this.character.isGrounded = this.character.body.touching.down;
-	    // if so, we have jumps to spare
-	    if(this.character.isGrounded) {
-            //this.character.anims.play('walk', true);
-	    	this.jumps = this.MAX_JUMPS;
-            this.jumping = false;
-            if(alcohol > 0 && Phaser.Input.Keyboard.JustDown(keyF)){ 
-                this.sprayMusic.play();
-                alcohol -=1;
-                this.AlcoholText.setText('Alcohol #: ' + alcohol);
-                this.Spray = true;
-            }
-            if (this.Spray){
-                this.clock = this.time.delayedCall(2000, () => {this.Spray = false, this.sprayMusic.stop();}, null, this);
-                this.character.body.x = 65;
-                this.character.anims.play('spray', true);
+        //check game
+        if(!Gameover){
+            // check if character is grounded
+            this.character.isGrounded = this.character.body.touching.down;
+            // if so, we have jumps to spare
+            if(this.character.isGrounded) {
+                //this.character.anims.play('walk', true);
+                this.jumps = this.MAX_JUMPS;
+                this.jumping = false;
+                if(alcohol > 0 && Phaser.Input.Keyboard.JustDown(keyF)){ 
+                    this.sprayMusic.play();
+                    alcohol -=1;
+                    this.AlcoholText.setText('Alcohol #: ' + alcohol);
+                    this.Spray = true;
+                }
+                if (this.Spray){
+                    this.clock = this.time.delayedCall(2000, () => {this.Spray = false, this.sprayMusic.stop();}, null, this);
+                    this.character.body.x = 65;
+                    this.character.anims.play('spray', true);
+                } else {
+                    this.character.body.x = 65;
+                    this.character.anims.play('walk', true);
+                }
             } else {
-                this.character.body.x = 65;
-                this.character.anims.play('walk', true);
+                this.character.anims.play('side');
             }
-	    } else {
-	    	this.character.anims.play('side');
         }
         
         // allow steady velocity change up to a certain key down duration
@@ -325,6 +329,20 @@ class Play extends Phaser.Scene{
         } else {
             this.sound.play("hit_music",{volume:1});
             if (health-item.hp <=0){
+                Gameover = true;
+                this.particles = this.add.particles('ghost');
+                this.emitter = this.particles.createEmitter({
+                    speed: 50,
+                    lifespan: 1000,
+                    blendMode: 'Add',
+                    scale: {
+                        start: 1.5,
+                        end: 0.5,
+                    },
+                    on: false,
+                });
+                this.particles.emitParticleAt(this.character.body.x+20, this.character.body.y+20, 300);
+                this.character.destroy();
                 this.GameOver();
                 health -= item.hp;
             } else {
@@ -332,7 +350,6 @@ class Play extends Phaser.Scene{
                 this.HealthText.setText('Health: ' + health);
             }
         }
-        console.log(health);
     }
 
     GameOver(){
