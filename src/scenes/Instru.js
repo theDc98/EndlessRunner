@@ -5,6 +5,7 @@ class Instru extends Phaser.Scene{
     preload(){
         //load images
         this.load.path = './assets/';
+        this.load.audio('bgm', 'bgm2.mp3');
         this.load.image([
             //load background
             //{ key: 'background' },
@@ -22,7 +23,9 @@ class Instru extends Phaser.Scene{
     create(){
         //place background
         this.background = this.add.tileSprite(0, 0, 800, 480, 'background').setOrigin(0.0);
-
+        //play bgm
+        this.bgm = this.sound.add('bgm',{mute: false, volume: 0.5, rate: 1,loop: true });
+        this.bgm.play();
         //UI and text
         let instruConfig = {
             color: '#000000',
@@ -56,7 +59,7 @@ class Instru extends Phaser.Scene{
         this.background.tilePositionX += 4;
 
         if(Phaser.Input.Keyboard.JustDown(keySPACE)){
-            //this.sound.play('select');
+            this.bgm.setVolume(0);
             this.scene.start("playScene");
         }
     }

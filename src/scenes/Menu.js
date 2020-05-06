@@ -3,29 +3,18 @@ class Menu extends Phaser.Scene{
         super("menuScene");
     }
     preload(){
-        //load Audio
-        /* this.load.audio('bgm', './assets/audio/XXX');
-        this.load.audio('select', './assets/audio/XXX'); */
-
+        //load bgm
+        this.load.path = './assets/';
+    
         //load background
-        this.load.image('background', './assets/background.png');
-        this.load.image('ground', './assets/ground.png');
+        this.load.image('background', './background.png');
+        this.load.image('ground', './ground.png');
     }
 
     create(){
         //place background
         this.background = this.add.tileSprite(0, 0, 800, 480, 'background').setOrigin(0.0);
-        
-        //play bgm
-        /* this.bgm = this.sound.add('bgm', {
-            mute: false,
-            volume: 2,
-            rate: 1,
-            loop: true
-        });
-        this.bgm.play(); */
-
-        // 改字体 颜色 UI
+        //UI
         let menuConfig = {
             fontFamily: 'Courier',
             fontSize: '40px',
@@ -37,6 +26,12 @@ class Menu extends Phaser.Scene{
             },
             fixedWidth: 0
         }
+        let creditConfig = {
+            fontFamily: 'Courier',
+            fontSize: '16px',
+            color: '#000000',
+            align: 'right',
+        }
 
         //menu text UI
         let centerX = game.config.width/2;
@@ -45,7 +40,7 @@ class Menu extends Phaser.Scene{
 
         this.add.text(centerX, centerY - textSpacer, 'Covid-19 Run!', menuConfig).setOrigin(0.5);
         this.add.text(centerX, centerY + textSpacer, 'Type SPACE to start', menuConfig).setOrigin(0.5);
-
+        this.add.text(centerX, 450, 'Music By: Cabled_mess [https://freesound.org/people/cabled_mess/]', creditConfig).setOrigin(0.5);
         keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
     }
 

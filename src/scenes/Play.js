@@ -5,6 +5,7 @@ class Play extends Phaser.Scene{
     preload(){
         // load 
         this.load.path = './assets/';
+        // sounds
         this.load.audio('background_music', 'endless runner.wav');
         this.load.audio('jump_music', 'jump.wav');
         this.load.audio('death_music', 'dead1.wav');
@@ -12,10 +13,11 @@ class Play extends Phaser.Scene{
         this.load.audio('spray_music', 'shoot2.wav');
         this.load.audio('pickup_music', 'pickup.wav');
         this.load.audio('hit_music', 'hit.wav');
+
+        //imgs
         this.load.atlas('character', 'character.png', 'character.json');
         this.load.image('background', 'background.png');
         this.load.image('city','cities.png');
-
         this.load.image('block', 'block.png',{
             frameWideth:25, 
             frameHeight:27
@@ -42,7 +44,7 @@ class Play extends Phaser.Scene{
         alcohol = 0;
         this.Spray = false;
 
-        //creat background music
+        //create background music
         this.backgroundMusic = this.sound.add('background_music',{mute: false, volume: 0.5, rate: 1,loop: true });
         this.backgroundMusic.play();
         //spray music
