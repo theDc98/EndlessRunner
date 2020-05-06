@@ -57,7 +57,7 @@ class Instru extends Phaser.Scene{
         this.add.text(centerX+50, 260, 'Virus-A will reduce 2hp OR Get 5 points to kill ', instruConfig).setOrigin(0.5);
         this.add.image(centerX/4, 320, 'virus1').setScale(1.5).setOrigin(0.5);
         this.add.text(centerX+50, 320, 'Virus-B will reduce 4hp OR Get 10 points to kill', instruConfig).setOrigin(0.5);
-        this.add.text(centerX, 375, 'Click SPACE to JUMP! & F to FIRE!', instruConfig).setOrigin(0.5);
+        this.add.text(centerX, 375, 'Press SPACE to JUMP! & F to FIRE!', instruConfig).setOrigin(0.5);
         
         //type space to play
         this.add.text(centerX, 420, 'Press SPACE to Play', creditConfig).setOrigin(0.5);
