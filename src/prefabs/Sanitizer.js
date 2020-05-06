@@ -8,8 +8,6 @@ class Sanitizer extends Phaser.Physics.Arcade.Sprite{
         scene.physics.add.existing(this);       // add physics body
         this.setVelocityX(velocity);            // make it go!
         this.setImmovable(true);                    
-        this.newSanitizer = true;                    // custom property to control barrier spawning
-        this.pick = false;                      // pick for new alcohol
         this.score = 5;
         this.hp = 1;
 
@@ -21,12 +19,7 @@ class Sanitizer extends Phaser.Physics.Arcade.Sprite{
         // override physics sprite update()
         super.update();
 
-        // add new sanitizer when existing sanitizer is over left-side picked
-        // if(this.x < -50 && this.newSanitizer){
-        //     this.newSanitizer = false;
-        //     this.scene.addSanitizer(this.parent, this.velocity);
-        // }
-        if (this.x < -51){
+        if(this.x < -this.width) {
             this.destroy();
         }
     }

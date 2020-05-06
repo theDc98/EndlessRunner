@@ -8,12 +8,8 @@ class Alcohol extends Phaser.Physics.Arcade.Sprite{
         scene.physics.add.existing(this);       // add physics body
         this.setVelocityX(velocity);            // make it go!
         this.setImmovable(true);                    
-        this.newAlcohol = true;                    // custom property to control barrier spawning
-        this.pick = false;                      // pick for new alcohol
-        this.score = 5;
+        this.score = 1;
         this.hp = 0;
-
-       //没有重力，在水平线
         this.body.setAllowGravity(false);
     }
 

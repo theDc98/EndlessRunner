@@ -45,6 +45,10 @@ class Play extends Phaser.Scene{
         alcohol = 0;
         this.Spray = false;
         Gameover = false;
+        this.levelup = true;
+        this.addSpeed = 0;
+        this.levelSpeed = 0;
+        this.level2Speed = 0;
 
         //create background music
         this.backgroundMusic = this.sound.add('background_music',{mute: false, volume: 0.5, rate: 1,loop: true });
@@ -201,7 +205,7 @@ class Play extends Phaser.Scene{
     
     update(){
         // update tile sprites (tweak for more "speed")
-        this.background.tilePositionX += 0.5;
+        this.background.PositionX += 0.5;
         this.city.tilePositionX += 1;
         this.groundScroll.tilePositionX += 1;
         //check game
@@ -230,34 +234,36 @@ class Play extends Phaser.Scene{
             } else {
                 this.character.anims.play('side');
             }
-        }
         
-        // allow steady velocity change up to a certain key down duration
-	    if(this.jumps > 0 && Phaser.Input.Keyboard.DownDuration(cursors.space, 150)) {
-            this.character.body.x = 65;
-	        this.character.body.velocity.y = this.JUMP_VELOCITY;
-            this.jumping = true;
-            this.sound.play('jump_music', { volume: 0.1 });
-	    } 
-        // finally, letting go of the UP key subtracts a jump
-	    if(this.jumping && Phaser.Input.Keyboard.UpDuration(cursors.space)) {
-            //this.character.body.x = 65;
-	    	this.jumps--;
-            this.jumping = false;
+            // allow steady velocity change up to a certain key down duration
+            if(this.jumps > 0 && Phaser.Input.Keyboard.DownDuration(cursors.space, 150)) {
+                this.character.body.x = 65;
+                this.character.body.velocity.y = this.JUMP_VELOCITY;
+                this.jumping = true;
+                this.sound.play('jump_music', { volume: 0.1 });
+            } 
+            // finally, letting go of the UP key subtracts a jump
+            if(this.jumping && Phaser.Input.Keyboard.UpDuration(cursors.space)) {
+                //this.character.body.x = 65;
+                this.jumps--;
+                this.jumping = false;
+            }
         }
-       
         //if not death,
         if (health>0){
             if(this.physics.overlap(this.character, this.virus1Group)) {
                     this.virus1 = this.virus1Group.getFirst(true);
                     this.virus1.destroy();
                     this.virusCollision(this.virus1);
+                    //this.addVirus1();
+                    console.log("readd virus1");
                     
             }
             if(this.physics.overlap(this.character, this.virus2Group)) {
                     this.virus2 = this.virus2Group.getFirst(true);
                     this.virus2.destroy();
                     this.virusCollision(this.virus2);
+                    console.log("readd virus2");
             }
             if(this.physics.overlap(this.character, this.maskGroup)) {
                     this.mask = this.maskGroup.getFirst(true);
@@ -280,36 +286,35 @@ class Play extends Phaser.Scene{
             this.scene.start('menuScene');
         }
     }
-//有点问题🔽
+
     levelBump(){
         level++;
-        if(level/20 == 1){
-            this.Speedup += 1;
+        //make game start easy to hard
+        if (level%60 == 0){
+            this.addSpeed = 0;
+            this.levelSpeed = 0;
+        } else{
+            if(level% 10 == 0){
+                this.addSpeed ++;
+                if(this.levelSpeed<4){
+                    this.levelSpeed ++;
+                }
+                if (this.level2Speed<3){
+                    this.level2Speed ++;
+                }
+            }
         }
-        if(level/30 == 1 && this.virusSpeedup < 1.5){
-            this.virusSpeedup += 0.5;
-        }
-        if(level % (5+ this.Speedup) == 0){
-            this.addMask();
-        }
-        if(level % (8 + this.Speedup) == 0){
-            this.addAlcohol();
-        }
-        if(level % (12+ this.Speedup) == 0){   
-            this.addSanitizer();
-        }
-        if(level % (3-this.virusSpeedup) == 0){
-            this.addVirus1();
-        }
-        if(level % (2-this.virusSpeedup) == 0){
-            this.addVirus2();
-        }
+        if(level % (5 + this.addSpeed) == 0){this.addMask();}
+        if(level % (5 + this.addSpeed) == 0){this.addAlcohol();}
+        if(level % (7 + this.addSpeed) == 0){this.addSanitizer();}
+        if(level % (5 - this.levelSpeed) == 0){this.addVirus1();}
+        if(level % (4-this.level2Speed) == 0){this.addVirus2();}
     }
 
     itemCollision(item) {
         this.sound.play("pickup_music",{volume:1});
         score += item.score;
-        if (item == this.alcohol){
+        if (item == this.alcohol && alcohol < 5){
             alcohol ++;
             this.AlcoholText.setText('Alcohol #:' + alcohol);
         }
@@ -318,7 +323,7 @@ class Play extends Phaser.Scene{
         this.HealthText.setText('Health: ' + health);
         }
         this.ScoreText.setText('Score: ' + score);
-        console.log(score);
+       
     }
 
     virusCollision(item) {
@@ -363,8 +368,6 @@ class Play extends Phaser.Scene{
         this.HealthText.destroy();
         this.ScoreText.destroy();
         this.AlcoholText.destroy();
-
-        console.log("gameover");
          // check for high score in local storage
         if (localStorage.getItem('highScore') != null){
             let storedScore = parseInt(localStorage.getItem('highScore'));
