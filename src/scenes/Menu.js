@@ -4,11 +4,11 @@ class Menu extends Phaser.Scene{
     }
     preload(){
         //load bgm
-        this.load.path = './assets/';
+        this.load.path = './assets/img';
     
         //load background
-        this.load.image('background', './background.png');
-        this.load.image('ground', './ground.png');
+        this.load.image('background', '/background.png');
+        this.load.image('ground', '/ground.png');
     }
 
     create(){
@@ -26,12 +26,6 @@ class Menu extends Phaser.Scene{
             },
             fixedWidth: 0
         }
-        let creditConfig = {
-            fontFamily: 'Courier',
-            fontSize: '16px',
-            color: '#000000',
-            align: 'right',
-        }
 
         //menu text UI
         let centerX = game.config.width/2;
@@ -39,8 +33,7 @@ class Menu extends Phaser.Scene{
         let textSpacer = 64;
 
         this.add.text(centerX, centerY - textSpacer, 'Covid-19 Run!', menuConfig).setOrigin(0.5);
-        this.add.text(centerX, centerY + textSpacer, 'Type SPACE to start', menuConfig).setOrigin(0.5);
-        this.add.text(centerX, 450, 'Music By: Cabled_mess [https://freesound.org/people/cabled_mess/]', creditConfig).setOrigin(0.5);
+        this.add.text(centerX, centerY + textSpacer, 'Press SPACE to start', menuConfig).setOrigin(0.5);
         keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
     }
 
@@ -50,7 +43,7 @@ class Menu extends Phaser.Scene{
 
         if(Phaser.Input.Keyboard.JustDown(keySPACE)){
             //this.sound.play('select');
-            this.scene.start("instruScene");
+            this.scene.start("creditScene");
         }
     }
 }

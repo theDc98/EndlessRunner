@@ -3,11 +3,10 @@ class Play extends Phaser.Scene{
         super("playScene");
     }
     preload(){
-        // load 
-        this.load.path = './assets/';
-        // sounds
+        //sounds
+        this.load.path = './assets/audio/';
         this.load.audio('background_music', 'endless runner.wav');
-        this.load.audio('jump_music', 'jump.wav');
+        this.load.audio('jump_music', 'jump1.wav');
         this.load.audio('death_music', 'dead1.wav');
         this.load.audio('kill_music', ['kill.mp3']);
         this.load.audio('spray_music', 'shoot2.wav');
@@ -15,6 +14,7 @@ class Play extends Phaser.Scene{
         this.load.audio('hit_music', 'hit.wav');
 
         //imgs
+        this.load.path = './assets/img/';
         this.load.atlas('character', 'character.png', 'character.json');
         this.load.image('background', 'background.png');
         this.load.image('ghost', 'ghost.png');
@@ -158,24 +158,24 @@ class Play extends Phaser.Scene{
 
         //ADD text
         this.HealthText= this.add.text(10, 10, `Health: ${health}`, { 
-            backgroundColor: '#000000',
+            //backgroundColor: '#000000',
             fontFamily: 'Helvetica', 
             fontSize: '30px', 
-            color: '#CD00CD' , 
+            color: '#FFFFFF' , 
             stroke: '#000000', 
             strokeThickness: 3 });
         this.ScoreText= this.add.text(600, 10, `Score: ${score}`, { 
-            backgroundColor: '#000000',
+            //backgroundColor: '#000000',
             fontFamily: 'Helvetica', 
             fontSize: '30px', 
-            color: '#CD00CD' , 
+            color: '#FFFFFF' , 
             stroke: '#000000', 
             strokeThickness: 3});
         this.AlcoholText= this.add.text(10, 50, `Alcohol #: ${alcohol}`, { 
-            backgroundColor: '#000000',
+            //backgroundColor: '#000000',
             fontFamily: 'Helvetica', 
             fontSize: '30px', 
-            color: '#CD00CD' , 
+            color: '#FFFFFF' , 
             stroke: '#000000', 
             strokeThickness: 3});
     }
@@ -240,7 +240,7 @@ class Play extends Phaser.Scene{
                 this.character.body.x = 65;
                 this.character.body.velocity.y = this.JUMP_VELOCITY;
                 this.jumping = true;
-                this.sound.play('jump_music', { volume: 0.1 });
+                this.sound.play('jump_music', { volume: 1, rate: 0.4 });
             } 
             // finally, letting go of the UP key subtracts a jump
             if(this.jumping && Phaser.Input.Keyboard.UpDuration(cursors.space)) {
@@ -257,7 +257,6 @@ class Play extends Phaser.Scene{
                     this.virusCollision(this.virus1);
                     //this.addVirus1();
                     console.log("readd virus1");
-                    
             }
             if(this.physics.overlap(this.character, this.virus2Group)) {
                     this.virus2 = this.virus2Group.getFirst(true);
