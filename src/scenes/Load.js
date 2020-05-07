@@ -41,15 +41,17 @@ class Load extends Phaser.Scene {
     create() {
         playMusic = true;
         // nathan's code
+        
         if(window.localStorage) {
             console.log('Local storage supported');
         } else {
             console.log('Local storage not supported');
         }
 
-        this.bgm = this.sound.add('bgm',{mute: false, volume: 1, rate: 1, loop: true });
-        this.bgm.play();
-        this.bgm.stop();
+        if(window.AudioContext){
+            console.log('audio');
+        }
+
         // go to Title scene
         this.scene.start('menuScene');
     }
