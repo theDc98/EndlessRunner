@@ -17,13 +17,13 @@ let config = {
             }
         }
     },
-    scene: [ Menu, Credits, Instru, Play ],
+    scene: [Load, Menu, Credits, Instru, Play ],
 };
 
 let game = new Phaser.Game(config);
 
 //reserve keyboard variables
-let keySPACE, keyF,keyR,keyQ;
+let keySPACE, keyUP, keyDOWN, keyF, keyR, keyQ;
 
 //define Game Settings
 game.settings = {
@@ -38,10 +38,10 @@ let cursors;
 let currentScene = 0;
 const SCALE = 1;
 const tileSize = 27;
-
+let playMusic = true;
 let centerX = game.config.width/2;
 let centerY = game.config.height/2;
-const textSpacer = 64;
+const textSpacer = 50;
 let level;
 let score;
 let health;

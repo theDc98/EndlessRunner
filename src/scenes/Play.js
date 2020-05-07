@@ -23,7 +23,6 @@ class Play extends Phaser.Scene{
             frameWideth:25, 
             frameHeight:27
         });
-        this.load.image('ground', 'ground.png');
 
         }
         
@@ -282,6 +281,7 @@ class Play extends Phaser.Scene{
          } else if ( Phaser.Input.Keyboard.JustDown(keyR)) {
             this.scene.restart(this.level);
         } else if(Phaser.Input.Keyboard.JustDown(keyQ)) {
+            playMusic = true;
             this.scene.start('menuScene');
         }
     }
@@ -391,7 +391,8 @@ class Play extends Phaser.Scene{
                 backgroundColor: '#000000',
                 fontFamily: 'Helvetica', 
                 fontSize: '40px', 
-                color: '#CD00CD', 
+                color: '#CD00CD',
+                stroke: '#000000', 
                 strokeThickness: 3 
                 }).setOrigin(0.5);
         }
@@ -400,6 +401,7 @@ class Play extends Phaser.Scene{
             fontFamily: 'Helvetica', 
             fontSize: '34px', 
             color: '#CD00CD', 
+            stroke: '#000000',
             strokeThickness: 3 
         }).setOrigin(0.5);
         this.add.text(centerX, centerY - 120, `You score is: ${score}` , { 
@@ -407,30 +409,34 @@ class Play extends Phaser.Scene{
             fontFamily: 'Helvetica', 
             fontSize: '34px', 
             color: '#CD00CD', 
+            stroke: '#000000',
             strokeThickness: 3 
         }).setOrigin(0.5);
         this.add.text(centerX, centerY - 80, `Your Hi-Score: ${highScore}`, { 
             backgroundColor: '#000000',
             fontFamily: 'Helvetica', 
             fontSize: '34px', 
-            color: '#CD00CD', 
+            color: '#CD00CD',
+            stroke: '#000000', 
             strokeThickness: 3 
         }).setOrigin(0.5);
 
         this.clock = this.time.delayedCall(4000, () => { 
             if(newHighScore) {this.newHighScoreText.destroy();} 
-            this.add.text(centerX, centerY - 40, `Press R to restart the game.`, { 
+            this.add.text(centerX, centerY - 40, `Press (R) to restart the game.`, { 
                 backgroundColor: '#000000',
                 fontFamily: 'Helvetica', 
                 fontSize: '34px', 
-                color: '#CD00CD', 
+                color: '#CD00CD',
+                stroke: '#000000', 
                 strokeThickness: 3 
             }).setOrigin(0.5);
-            this.add.text(centerX, centerY + 3, `Press Q to go back to main menu.`, { 
+            this.add.text(centerX, centerY + 3, `Press (Q) to go back to main menu.`, { 
                 backgroundColor: '#000000',
                 fontFamily: 'Helvetica', 
                 fontSize: '34px', 
                 color: '#CD00CD', 
+                stroke: '#000000',
                 strokeThickness: 3 
             }).setOrigin(0.5);
         }, null, this);

@@ -2,33 +2,11 @@ class Instru extends Phaser.Scene{
     constructor(){
         super("instruScene");
     }
-    preload(){
-        //load imgs
-        this.load.path = './assets/img/';
-        this.load.image([
-            //load background
-            //{ key: 'background' },
-            //load player
-            //{ key: 'character' },
-            //load items
-            { key: 'mask' },
-            { key: 'alcohol' },
-            { key: 'sanitizer' },
-            { key: 'virus1' },
-            { key: 'virus2' },
-        ]);
-        //load sounds
-        this.load.path = './assets/audio/';
-        this.load.audio('bgm', 'bgm2.mp3');
-
-    }
+    
 
     create(){
         //place background
         this.background = this.add.tileSprite(0, 0, 800, 480, 'background').setOrigin(0.0);
-        //play bgm
-        this.bgm = this.sound.add('bgm',{mute: false, volume: 1, rate: 1, loop: true });
-        this.bgm.play();
         //UI and text
         let instruConfig = {
             color: '#000000',
@@ -38,29 +16,40 @@ class Instru extends Phaser.Scene{
             fixedWidth: 0,
         }
         let creditConfig = {
-            color: '#FFFFFF',
+            color: '#CD00CD',
             fontFamily: 'Courier',
-            fontSize: '24px',
+            fontSize: '22px',
+            stroke: '#FFFFFF', 
+            strokeThickness: 3,
             align: 'left',
             fixedWidth: 0,
         }
 
+        let credit2Config = {
+            color: '#000000',
+            fontFamily: 'Courier',
+            fontSize: '24px',
+            stroke: '#FFFFFF', 
+            strokeThickness: 3,
+            align: 'left',
+            fixedWidth: 0,
+        }
         //add instructions
-        this.add.text(centerX, 30, 'Instruction', {color: '#000000', fontSize: '32px', strokeThickness: 3}).setOrigin(0.5);
-        this.add.image(centerX/4, 80, 'mask').setScale(1.5).setOrigin(0.5);
-        this.add.text(centerX+50, 80, 'Mask will add 1HP & 5 points', instruConfig).setOrigin(0.5);
+        this.add.text(centerX, 40, 'Instruction', {color: '#000000', fontSize: '32px', strokeThickness: 5}).setOrigin(0.5);
+        this.add.image(centerX/4, 90, 'mask').setScale(1.5).setOrigin(0.5);
+        this.add.text(centerX - 80, 90, 'Mask will +1 hp & +5 points', instruConfig).setOrigin(0.5);
         this.add.image(centerX/4, 140, 'alcohol').setScale(1.5).setOrigin(0.5);
-        this.add.text(centerX+50, 140, 'Alcohol can kill Virus & 1 points, MAX: 5', instruConfig).setOrigin(0.5);
-        this.add.image(centerX/4, 200, 'sanitizer').setScale(1.5).setOrigin(0.5);
-        this.add.text(centerX+50, 200, 'Sanitizer will add 1hp & 5 points', instruConfig).setOrigin(0.5);
-        this.add.image(centerX/4, 260, 'virus2').setScale(1.5).setOrigin(0.5);
-        this.add.text(centerX+50, 260, 'Virus-A will reduce 2hp OR Get 5 points to kill ', instruConfig).setOrigin(0.5);
-        this.add.image(centerX/4, 320, 'virus1').setScale(1.5).setOrigin(0.5);
-        this.add.text(centerX+50, 320, 'Virus-B will reduce 4hp OR Get 10 points to kill', instruConfig).setOrigin(0.5);
-        this.add.text(centerX, 375, 'Press SPACE to JUMP! & F to FIRE!', instruConfig).setOrigin(0.5);
+        this.add.text(centerX+60, 140, 'Collect Alcohol to kill Virus & +1 points, MAX: 5', instruConfig).setOrigin(0.5);
+        this.add.image(centerX/4, 190, 'sanitizer').setScale(1.5).setOrigin(0.5);
+        this.add.text(centerX- 50, 190, 'Sanitizer will +1 hp & +5 points', instruConfig).setOrigin(0.5);
+        this.add.image(centerX/4, 240, 'virus2').setScale(1.5).setOrigin(0.5);
+        this.add.text(centerX+15, 240, 'Virus-A will -2 hp OR +5 points if killed ', instruConfig).setOrigin(0.5);
+        this.add.image(centerX/4, 300, 'virus1').setScale(1.5).setOrigin(0.5);
+        this.add.text(centerX+15, 300, 'Virus-B will -4 hp OR +10 points if killed', instruConfig).setOrigin(0.5);
+        this.add.text(centerX, 370, 'Press (SPACE) to JUMP! & Press (F) to Spray!', credit2Config).setOrigin(0.5);
         
         //type space to play
-        this.add.text(centerX, 420, 'Press SPACE to Play', creditConfig).setOrigin(0.5);
+        this.add.text(centerX, 420, '[ Press (SPACE) to Return ]', creditConfig).setOrigin(0.5);
         keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
     }
 
@@ -69,8 +58,7 @@ class Instru extends Phaser.Scene{
         this.background.tilePositionX += 4;
 
         if(Phaser.Input.Keyboard.JustDown(keySPACE)){
-            this.bgm.setVolume(0);
-            this.scene.start("playScene");
+            this.scene.start("menuScene");
         }
     }
 }
