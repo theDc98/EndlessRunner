@@ -1,9 +1,16 @@
 //Group Name: HDH.org
-//Group Members: Jenny XU, Henry Huang, Rene Ding
+//Group Members: Huazhen(Jenny) XU, Rene Ding
 //Game Title: Covid-19 Run!
-//Date completed: 
+//Date completed: 5/6/2020
 //Creative title:
-
+//For our endless runner project, we spent a lot of time on progamming techniques. 
+//Due to one of our teammate dropped the course at the end of last week, we had a hard time to finish everything.
+//We had some problems about how to adjust the time of item-generate and how to change the game level by increasing the number of objects.
+//For the problem, we add some parameters to affect the generation function and the level function later.//
+//Additionally, we add a special animation--particle emitter to create a Death animation effect.
+//The design of rolling-cities background is brilliant. The scene of travelling between different cities create a sense of escape.
+//For this project, all artwork in the game is designed by Jenny.
+//Our endless runner form is player can control the movement (jumping)of the character to collect items and avoid obstacles. Players can also kill the obstacles by collecting items to release the character’s skills. The player's ultimate goal is to score higher.
 let config = {
     type: Phaser.AUTO,
     width: 800,
