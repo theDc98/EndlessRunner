@@ -15,7 +15,7 @@ class Load extends Phaser.Scene {
         });
         this.load.image([
             //load background
-            { key: 'background' },
+            { key: 'Background' },
             { key: 'ground' },
             { key: 'mask' },
             { key: 'alcohol' },
@@ -32,7 +32,7 @@ class Load extends Phaser.Scene {
         this.load.audio('death_music', 'dead1.wav');
         this.load.audio('kill_music', ['kill.mp3']);
         this.load.audio('spray_music', 'shoot2.wav');
-        this.load.audio('pickup_music', 'pickup.wav');
+        this.load.audio('pickup_music', 'Pickup.wav');
         this.load.audio('hit_music', 'hit.wav');
         
     }
