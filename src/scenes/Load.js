@@ -47,8 +47,11 @@ class Load extends Phaser.Scene {
             console.log('Local storage not supported');
         }
 
-        window.AudioContext = window.AudioContext;
-
+        if (game.sound.usingWebAudio &&
+            game.sound.context.state === 'suspended')
+        {
+          game.input.onTap.addOnce(game.sound.context.resume, game.sound.context);
+        }
         // go to Title scene
         this.scene.start('menuScene');
     }
