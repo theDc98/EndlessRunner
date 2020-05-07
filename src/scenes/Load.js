@@ -39,7 +39,7 @@ class Load extends Phaser.Scene {
     }
     
     create() {
-        
+        playMusic = true;
         if(window.localStorage) {
             console.log('Local storage supported');
         } else {
