@@ -7,8 +7,7 @@ class Load extends Phaser.Scene {
         //load imgs
         this.load.path = './assets/img/';
         //load background
-        this.load.image('background', '/Background.png');
-
+        this.load.image('background', 'Background.png');
         this.load.atlas('character', 'character.png', 'character.json');
         this.load.image('ghost', 'ghost.png');
         this.load.image('city','cities.png');
@@ -27,7 +26,7 @@ class Load extends Phaser.Scene {
 
         //load sounds
         this.load.path = './assets/audio/';
-        this.load.audio('bgm', 'bgm2.mp3');
+        this.load.audio('bgm', ['bgm2.mp3']);
         this.load.audio('background_music', 'endless runner.wav');
         this.load.audio('jump_music', 'jump1.wav');
         this.load.audio('death_music', 'dead1.wav');
@@ -47,15 +46,7 @@ class Load extends Phaser.Scene {
         } else {
             console.log('Local storage not supported');
         }
-        if(typeof AudioContext != "undefined" || typeof webkitAudioContext != "undefined") {
-            var resumeAudio = function() {
-               if(typeof g_WebAudioContext == "undefined" || g_WebAudioContext == null) return;
-               if(g_WebAudioContext.state == "suspended") g_WebAudioContext.resume();
-               document.removeEventListener("click", resumeAudio);
-            };
-            document.addEventListener("click", resumeAudio);
-         }
-        
+
         // go to Title scene
         this.scene.start('menuScene');
     }
