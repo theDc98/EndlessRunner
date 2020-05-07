@@ -6,6 +6,9 @@ class Load extends Phaser.Scene {
     preload() {
         //load imgs
         this.load.path = './assets/img/';
+        //load background
+        this.load.image('background', '/Background.png');
+
         this.load.atlas('character', 'character.png', 'character.json');
         this.load.image('ghost', 'ghost.png');
         this.load.image('city','cities.png');
@@ -14,8 +17,6 @@ class Load extends Phaser.Scene {
             frameHeight:27
         });
         this.load.image([
-            //load background
-            { key: 'Background' },
             { key: 'ground' },
             { key: 'mask' },
             { key: 'alcohol' },
