@@ -41,7 +41,7 @@ class Load extends Phaser.Scene {
     create() {
         playMusic = true;
         // Existing code unchanged.
-        
+        window.AudioContext = window.AudioContext;
         
         if(window.localStorage) {
             console.log('Local storage supported');
