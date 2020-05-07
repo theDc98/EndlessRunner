@@ -47,11 +47,15 @@ class Load extends Phaser.Scene {
         } else {
             console.log('Local storage not supported');
         }
-
-        if(window.AudioContext){
-            console.log('audio');
-        }
-
+        if(typeof AudioContext != "undefined" || typeof webkitAudioContext != "undefined") {
+            var resumeAudio = function() {
+               if(typeof g_WebAudioContext == "undefined" || g_WebAudioContext == null) return;
+               if(g_WebAudioContext.state == "suspended") g_WebAudioContext.resume();
+               document.removeEventListener("click", resumeAudio);
+            };
+            document.addEventListener("click", resumeAudio);
+         }
+        
         // go to Title scene
         this.scene.start('menuScene');
     }
