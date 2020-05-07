@@ -18,6 +18,10 @@ class Load extends Phaser.Scene {
             { key: 'virus1' },
             { key: 'virus2' },
         ]);
+
+        this.load.image('background', '/background.png');
+        this.load.image('ground', '/ground.png');
+        
         //load sounds
         this.load.path = './assets/audio/';
         this.load.audio('bgm', 'bgm2.mp3');

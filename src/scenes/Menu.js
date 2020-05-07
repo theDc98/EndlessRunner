@@ -2,14 +2,14 @@ class Menu extends Phaser.Scene{
     constructor(){
         super("menuScene");
     }
-    preload(){
-        //load 
-        this.load.path = './assets/img';
+    // preload(){
+    //     //load 
+    //     this.load.path = './assets/img';
     
-        //load background
-        this.load.image('background', '/background.png');
-        this.load.image('ground', '/ground.png');
-    }
+    //     //load background
+    //     this.load.image('background', '/background.png');
+    //     this.load.image('ground', '/ground.png');
+    // }
 
     create(){
         if (playMusic){
