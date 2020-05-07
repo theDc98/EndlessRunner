@@ -15,6 +15,9 @@ let config = {
     type: Phaser.AUTO,
     width: 800,
     height: 480,
+    audio: {
+        context: audioContext
+    },
     physics: {
         default: 'arcade',
         arcade: {

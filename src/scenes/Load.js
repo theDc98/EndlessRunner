@@ -41,18 +41,7 @@ class Load extends Phaser.Scene {
     create() {
         playMusic = true;
         // Existing code unchanged.
-        window.onload = function() {
-            var context = new AudioContext();
-            // Setup all nodes
-            
-        }
         
-        // One-liner to resume playback when user interacted with the page.
-        document.querySelector('button').addEventListener('click', function() {
-            context.resume().then(() => {
-            console.log('Playback resumed successfully');
-            });
-        });
         
         if(window.localStorage) {
             console.log('Local storage supported');
