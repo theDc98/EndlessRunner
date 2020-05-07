@@ -2,15 +2,6 @@ class Credits extends Phaser.Scene{
     constructor(){
         super("creditScene");
     }
-    preload(){
-        //load imgs
-        this.load.path = './assets/img/';
-        this.load.image([
-            //load background
-            { key: 'background' },
-        ]);
-        
-    }
 
     create(){
         //place background
